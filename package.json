@@ -1,0 +1,25 @@
+{
+  "name": "kixx-assert",
+  "version": "0.1.0",
+  "description": "A function assetion library for ECMAScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kixxauth/kixx-assert.git"
+  },
+  "keywords": [
+    "function",
+    "assertion",
+    "library",
+    "testing"
+  ],
+  "author": "Kris Walker (www.kixx.name)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kixxauth/kixx-assert/issues"
+  },
+  "homepage": "https://github.com/kixxauth/kixx-assert#readme"
+}
