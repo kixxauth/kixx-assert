@@ -12,7 +12,7 @@
     "url": "git+https://github.com/kixxauth/kixx-assert.git"
   },
   "keywords": [
-    "function",
+    "functional",
     "assertion",
     "library",
     "testing"
