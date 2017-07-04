@@ -296,6 +296,22 @@
 
 	function assertion2(guard, reason) {
 		return function innerAssert(a, b, message) {
+			if (arguments.length < 2) {
+				return function curriedInnerAssert(b, message) {
+					var result = guard(a, b);
+
+					if (!result) {
+						throw new AssertionError(
+							composeMessage(message, reason(a, b)),
+							null,
+							curriedInnerAssert
+						);
+					}
+
+					return true;
+				};
+			}
+
 			var result = guard(a, b);
 
 			if (!result) {
@@ -415,5 +431,9 @@
 		isNumberNotNaN: assertion1(isNumberNotNaN, function (actual) {
 			return printf('expected %x to be a number and not NaN', actual);
 		})
+	};
+
+	exports.use = function use(block) {
+		block(exports);
 	};
 }));

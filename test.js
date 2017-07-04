@@ -27,7 +27,44 @@
 		// The first line of the stack trace is .name and .message, the second
 		// line is a reference to the file location, which should be right here:
 		var secondLine = err.stack.split('\n')[1];
-		assert.isMatch(/test\.js:[\d]{2}:[\d]{2}$/, secondLine, '.stack');
+		assert.isMatch(/\/test\.js:[\d]{2}:[\d]{2}$/, secondLine, '.stack');
+	});
+
+	test('assertion() factory', function () {
+		var assertTruthy = helpers.assertion1(helpers.identity, function (actual) {
+			return helpers.printf('expected %x to be truthy', actual);
+		});
+
+		var assertEqual = helpers.assertion2(helpers.equal, function (expected, actual) {
+			return helpers.printf('expected %x to equal %x', actual, expected);
+		});
+
+		var err1;
+		var err2;
+
+		try {
+			assertTruthy(false, 'supposed to be false');
+		} catch (err) {
+			err1 = err;
+		}
+
+		try {
+			assertEqual(1, 2, 'supposed to be equal');
+		} catch (err) {
+			err2 = err;
+		}
+
+		assert.isDefined(err1, 'error 1');
+		assert.isDefined(err2, 'error 2');
+
+		var stack1 = err1.stack.split('\n');
+		var stack2 = err2.stack.split('\n');
+
+		assert.isEqual('AssertionError: supposed to be false :: expected Boolean(false) to be truthy', stack1[0]);
+		assert.isMatch(/\/test\.js:[\d]{2}:[\d]{1}$/, stack1[1]);
+
+		assert.isEqual('AssertionError: supposed to be equal :: expected Number(2) to equal Number(1)', stack2[0]);
+		assert.isMatch(/\/test\.js:[\d]{2}:[\d]{1}$/, stack2[1]);
 	});
 
 	test('helpers.identity()', function () {
