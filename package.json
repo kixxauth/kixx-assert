@@ -2,7 +2,7 @@
   "name": "kixx-assert",
   "version": "1.0.0",
   "description": "A functional assertion library for ECMAScript",
-  "main": "index.js",
+  "main": "kixx-assert.js",
   "scripts": {
     "test": "eslint ./ && node ./test.js",
     "lint": "eslint ./"

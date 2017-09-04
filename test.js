@@ -550,4 +550,4 @@
 		assert.isNumberNotNaN(1.1, 'float');
 		assert.isNumberNotNaN(Infinity, 'Infinity');
 	});
-}(typeof require === 'undefined' ? kixxAssert : require('./')));
+}(typeof require === 'undefined' ? kixxAssert : require('./kixx-assert')));
