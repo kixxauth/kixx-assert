@@ -7,6 +7,10 @@ module.exports = {
 		"block-scoped-var": [
 			"error"
 		],
+		"one-var": [
+			"error",
+			"never"
+		],
 		"no-caller": [
 			"error"
 		],
