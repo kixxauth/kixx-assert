@@ -1,5 +1,4 @@
 /* globals require, kixxAssert, console */
-/* eslint no-console: "off" */
 (function (kixxAssert) {
 	'use strict';
 
@@ -11,10 +10,12 @@
 		try {
 			block();
 		} catch (err) {
-			console.error('In: '+ title);
-			console.error(err.stack);
+			console.error('Fail: '+ title); // eslint-disable-line no-console
+			console.error(err.stack); // eslint-disable-line no-console
 			return false;
 		}
+
+		console.log('Pass: '+ title); // eslint-disable-line no-console
 		return true;
 	}
 
