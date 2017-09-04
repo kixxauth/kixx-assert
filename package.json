@@ -1,6 +1,6 @@
 {
   "name": "kixx-assert",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A functional assertion library for ECMAScript",
   "main": "index.js",
   "scripts": {
