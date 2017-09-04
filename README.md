@@ -5,23 +5,25 @@ A functional assertion library for ECMAScript.
 ## Installation
 
 ### In the browser:
-
+Include in your HTML:
 ```html
 <script src="./kixx-assert.js" type="text/javascript"></script>
 ```
 
+Then use in your JavaScript:
 ```js
 var kixxAssert = window.kixxAssert;
 ```
 
-__AMD and Browserify__ are both supported.
+__AMD and Browserify__ are also supported.
 
 ### Node.js
-
+Install with NPM on the command line:
 ```
 $ npm install --save kixx-assert
 ```
 
+Then use in your project:
 ```js
 const kixxAssert = require('kixx-assert');
 ```
