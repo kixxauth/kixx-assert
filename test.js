@@ -211,7 +211,7 @@
 			assert.isNotEmpty(s, 'String');
 			throw new AssertionError('Should have thrown!');
 		} catch (err) {
-			assert.isEqual('AssertionError', err.name);
+			assert.isEqual('String :: expected String("") not to be empty', err.message);
 		}
 
 		assert.isNotEmpty('foo', 'full String');
@@ -220,7 +220,7 @@
 			assert.isNotEmpty(i, 'Integer');
 			throw new AssertionError('Should have thrown!');
 		} catch (err) {
-			assert.isEqual('AssertionError', err.name);
+			assert.isEqual('Integer :: expected Number(0) not to be empty', err.message);
 		}
 
 		assert.isNotEmpty(-1, 'truthy Number');
@@ -229,7 +229,7 @@
 			assert.isNotEmpty(b, 'Boolean');
 			throw new AssertionError('Should have thrown!');
 		} catch (err) {
-			assert.isEqual('AssertionError', err.name);
+			assert.isEqual('Boolean :: expected Boolean(false) not to be empty', err.message);
 		}
 
 		assert.isNotEmpty(true, 'true');
@@ -238,21 +238,21 @@
 			assert.isNotEmpty(u, 'undefined');
 			throw new AssertionError('Should have thrown!');
 		} catch (err) {
-			assert.isEqual('AssertionError', err.name);
+			assert.isEqual('undefined :: expected undefined not to be empty', err.message);
 		}
 
 		try {
 			assert.isNotEmpty(n, 'null');
 			throw new AssertionError('Should have thrown!');
 		} catch (err) {
-			assert.isEqual('AssertionError', err.name);
+			assert.isEqual('null :: expected null not to be empty', err.message);
 		}
 
 		try {
 			assert.isNotEmpty(nn, 'NaN');
 			throw new AssertionError('Should have thrown!');
 		} catch (err) {
-			assert.isEqual('AssertionError', err.name);
+			assert.isEqual('NaN :: expected Number(NaN) not to be empty', err.message);
 		}
 
 		assert.isNotEmpty(a, 'Array');
@@ -261,23 +261,17 @@
 			assert.isNotEmpty(o, 'Object');
 			throw new AssertionError('Should have thrown!');
 		} catch (err) {
-			assert.isEqual('AssertionError', err.name);
+			assert.isEqual('Object :: expected Object({}) not to be empty', err.message);
 		}
 
 		try {
 			assert.isNotEmpty(d, 'Date');
 			throw new AssertionError('Should have thrown!');
 		} catch (err) {
-			assert.isEqual('AssertionError', err.name);
+			assert.isMatch(/^Date :: expected Date\([\d\w\s\-():]+\) not to be empty$/, err.message);
 		}
 
-		try {
-			assert.isNotEmpty(fn, 'Function');
-			throw new AssertionError('Should have thrown!');
-		} catch (err) {
-			assert.isEqual('AssertionError', err.name);
-		}
-
+		assert.isNotEmpty(fn, 'Function');
 		assert.isNotEmpty(cat, 'Cat');
 	});
 
