@@ -148,6 +148,10 @@
 		return type(x) === 'Object';
 	}
 
+	function isFunction(x) {
+		return type(x) === 'Function';
+	}
+
 	function isNull(x) {
 		return type(x) === 'Null';
 	}
@@ -344,6 +348,7 @@
 		isBoolean: curry1(isBoolean),
 		isArray: curry1(isArray),
 		isObject: curry1(isObject),
+		isFunction: curry1(isFunction),
 		isNull: curry1(isNull),
 		isUndefined: curry1(isUndefined),
 		isDefined: curry1(complement(isUndefined)),

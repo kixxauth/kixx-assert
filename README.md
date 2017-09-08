@@ -97,6 +97,8 @@ Returns Boolean true if the first argument is not an object, or is null.
 
 #### isObject
 
+#### isFunction
+
 #### isNull
 
 #### isUndefined
