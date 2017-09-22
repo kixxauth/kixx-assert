@@ -54,11 +54,12 @@ AssertionError.prototype.constructor = AssertionError;
 
 ### Helpers
 
-#### identity
+#### helpers.identity
+`helpers.identity(x)`
 A function that does nothing but return the parameter supplied to it. Good as a default or placeholder function.
 
-name | type | description
----- | ---- | -----------
+parameter | type | description
+--------- | ---- | -----------
 x | any | The value to return
 
 __Returns__ the input value `x`.
