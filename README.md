@@ -2,10 +2,9 @@ Kixx Assert
 ===========
 A functional assertion library for ECMAScript.
 
-## Installation
+## Install in the browser:
+__AMD__ and __Browserify__ are supported. Or include in your HTML:
 
-### In the browser:
-Include in your HTML:
 ```html
 <script src="./kixx-assert.js" type="text/javascript"></script>
 ```
@@ -15,9 +14,7 @@ Then use in your JavaScript:
 var kixxAssert = window.kixxAssert;
 ```
 
-__AMD and Browserify__ are also supported.
-
-### Node.js
+## Install in a Node.js project:
 Install with NPM on the command line:
 ```
 $ npm install --save kixx-assert
@@ -58,7 +55,14 @@ AssertionError.prototype.constructor = AssertionError;
 ### Helpers
 
 #### identity
-Returns first argument passed into it.
+A function that does nothing but return the parameter supplied to it. Good as a default or placeholder function.
+
+name | type | description
+---- | ---- | -----------
+x | any | The value to return
+
+__Returns__ the input value `x`.
+
 
 #### complement
 Returns the Boolean inverse of the first argument passed into it.
