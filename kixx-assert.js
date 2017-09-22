@@ -439,6 +439,6 @@
 	};
 
 	exports.use = function use(block) {
-		block(exports);
+		return block(exports);
 	};
 }));
