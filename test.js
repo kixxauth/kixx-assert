@@ -1,10 +1,10 @@
-/* globals require, kixxAssert, console */
-(function (kixxAssert) {
+/* globals require, KixxAssert, console */
+(function (KixxAssert) {
 	'use strict';
 
-	var helpers = kixxAssert.helpers;
-	var assert = kixxAssert.assert;
-	var AssertionError = kixxAssert.AssertionError;
+	var helpers = KixxAssert.helpers;
+	var assert = KixxAssert.assert;
+	var AssertionError = KixxAssert.AssertionError;
 
 	function test(title, block) {
 		try {
@@ -544,4 +544,4 @@
 		assert.isNumberNotNaN(1.1, 'float');
 		assert.isNumberNotNaN(Infinity, 'Infinity');
 	});
-}(typeof require === 'undefined' ? kixxAssert : require('./kixx-assert')));
+}(typeof require === 'undefined' ? KixxAssert : require('./kixx-assert')));

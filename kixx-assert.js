@@ -6,8 +6,8 @@
 	} else if (typeof module === 'object' && module.exports) {
 		factory(module.exports);
 	} else {
-		root.kixxAssert = {};
-		factory(root.kixxAssert);
+		root.KixxAssert = {};
+		factory(root.KixxAssert);
 	}
 }(this, function(exports) {
 	'use strict';
