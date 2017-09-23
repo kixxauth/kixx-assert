@@ -11,7 +11,7 @@ __AMD__ and __Browserify__ are supported. Or include in your HTML:
 
 Then use in your JavaScript:
 ```js
-var kixxAssert = window.kixxAssert;
+var KixxAssert = window.KixxAssert;
 ```
 
 ## Install in a Node.js project:
@@ -22,10 +22,67 @@ $ npm install --save kixx-assert
 
 Then use in your project:
 ```js
-const kixxAssert = require('kixx-assert');
+const KixxAssert = require('kixx-assert');
 ```
 
 ## API
+
+__Errors__
+
+- [AssertionError](#assertionerror)
+
+__Assertions__
+
+- [isOk(subject, reason)](#assertionsisok)
+- [isNotOk(subject, reason)](#assertionsisnotok)
+- [isEqual(expected, actual, reason)](#assertionsisequal)
+- [isNotEqual(expected, actual, reason)](#assertionsisnotequal)
+- [isMatch(pattern, actual, reason)](#assertionsismatch)
+- [isNotMatch(pattern, actual, reason)](#assertionsisnotmatch)
+- [isUndefined(subject, reason)](#assertionsisundefined)
+- [isDefined(subject, reason)](#assertionsisdefined)
+- [isEmpty(subject, reason)](#assertionsisempty)
+- [isNotEmpty(subject, reason)](#assertionsisnotempty)
+- [includes(item, subject, reason)](#assertionsincludes)
+- [doesNotInclude(item, subject, reason)](#assertionsdoesnotinclude)
+- [has(key, subject, reason)](#assertionshas)
+- [doesNotHave(key, subject, reason)](#assertionsdoesnothave)
+- [isGreaterThan(a, b, reason)](#assertionsisgreaterthan)
+- [isLessThan(a, b, reason)](#assertionsislessthan)
+- [isNonEmptyString(subject, reason)](#assertionsisnonemptystring)
+- [isNumberNotNaN(subject, reason)](#assertionsisnumbernotnan)
+
+__helpers__
+
+- [identity(x)](#helpersidentity)
+- [complement(f)](#helperscomplement)
+- [type(v)](#helperstype)
+- [keys(x)](#helperskeys)
+- [has(prop, x)](#helpershas)
+- [equal(a, b)](#helpersequal)
+- [greaterThan(a, b)](#helpersgreaterthan)
+- [match(matcher, x)](#helpersmatch)
+- [isPrimitive(x)](#helpersisprimitive)
+- [isString(x)](#helpersisstring)
+- [isNumber(x)](#helpersisnumber)
+- [isBoolean(x)](#helpersisboolean)
+- [isArray(x)](#helpersisarray)
+- [isObject(x)](#helpersisobject)
+- [isFunction(x)](#helpersisfunction)
+- [isNull(x)](#helpersisnull)
+- [isUndefined(x)](#helpersisundefined)
+- [isDefined(x)](#helpersisdefined)
+- [isNumberNotNaN(x)](#helpersisnumbernotnan)
+- [isNonEmptyString(x)](#helpersisnonemptystring)
+- [isEmpty(x)](#helpersisemtpty)
+- [isNotEmpty(x)](#helpersisnotemtpty)
+- [includes(item, list)](#helpersincludes)
+- [doesNotInclude(item, list)](#helpersdoesnotinclude)
+- [toString(item, list)](#helperstostring)
+- [printf(pattern, ..rest)](#helpersprintf)
+- [assertion1(guard, reason)](#helpersassertion1)
+- [assertion2(guard, reason)](#helpersassertion2)
+
 
 ### AssertionError
 An Error constructor used to identify assertion errors. Passing in a caller can help isolate stack traces to make them more usable.
@@ -33,7 +90,7 @@ An Error constructor used to identify assertion errors. Passing in a caller can 
 ```js
 // Example:
 function myFunction() {
-    throw new kixxAssert.AssertionError('test error', null, myFunction);
+    throw new KixxAssert.AssertionError('test error', null, myFunction);
 }
 ```
 
@@ -53,8 +110,166 @@ AssertionError.prototype.constructor = AssertionError;
 ```
 
 
+### assertions.isOk
+__`KixxAssert.assertions.isOk(subject, reason)`__
+
+parameter | type | description
+--------- | ---- | -----------
+subject | any | The item to test
+reason | String | String used as the first part of the AssertionError message.
+
+### assertions.isNotOk
+__`KixxAssert.assertions.isNotOk(subject, reason)`__
+
+parameter | type | description
+--------- | ---- | -----------
+subject | any | The item to test
+reason | String | String used as the first part of the AssertionError message.
+
+### assertions.isEqual
+__`KixxAssert.assertions.isEqual(expected, actual, reason)`__
+
+parameter | type | description
+--------- | ---- | -----------
+expected | any | The value to test against
+actual | any | The test subject
+reason | String | String used as the first part of the AssertionError message.
+
+### assertions.isNotEqual
+__`KixxAssert.assertions.isNotEqual(expected, actual, reason)`__
+
+parameter | type | description
+--------- | ---- | -----------
+expected | any | The value to test against
+actual | any | The test subject
+reason | String | String used as the first part of the AssertionError message
+
+### assertions.isMatch
+__`KixxAssert.assertions.isMatch(pattern, actual, reason)`__
+
+parameter | type | description
+--------- | ---- | -----------
+pattern | String or RegExp | The pattern to test
+actual | any | The test subject
+reason | String | String used as the first part of the AssertionError message
+
+### assertions.isNotMatch
+__`KixxAssert.assertions.isNotMatch(pattern, actual, reason)`__
+
+parameter | type | description
+--------- | ---- | -----------
+pattern | String or RegExp | The pattern to test
+actual | any | The test subject
+reason | String | String used as the first part of the AssertionError message
+
+### assertions.isUndefined
+__`KixxAssert.assertions.isUndefined(subject, reason)`__
+
+parameter | type | description
+--------- | ---- | -----------
+subject | any | The item to test
+reason | String | String used as the first part of the AssertionError message.
+
+### assertions.isDefined
+__`KixxAssert.assertions.isDefined(subject, reason)`__
+
+parameter | type | description
+--------- | ---- | -----------
+subject | any | The item to test
+reason | String | String used as the first part of the AssertionError message.
+
+### assertions.isEmpty
+__`KixxAssert.assertions.isEmpty(subject, reason)`__
+
+parameter | type | description
+--------- | ---- | -----------
+subject | any | The item to test
+reason | String | String used as the first part of the AssertionError message.
+
+### assertions.isNotEmpty
+__`KixxAssert.assertions.isNotEmpty(subject, reason)`__
+
+parameter | type | description
+--------- | ---- | -----------
+subject | any | The item to test
+reason | String | String used as the first part of the AssertionError message.
+
+### assertions.includes
+__`KixxAssert.assertions.includes(item, subject, reason)`__
+
+parameter | type | description
+--------- | ---- | -----------
+item | any | The item expected to be found in the subject
+subject | Array, Object, or String | The item to test
+reason | String | String used as the first part of the AssertionError message.
+
+### assertions.doesNotInclude
+__`KixxAssert.assertions.doesNotInclude(item, subject, reason)`__
+
+parameter | type | description
+--------- | ---- | -----------
+item | any | The item *not* expected to be found in the subject
+subject | Array, Object, or String | The item to test
+reason | String | String used as the first part of the AssertionError message.
+
+### assertions.has
+__`KixxAssert.assertions.has(key, subject, reason)`__
+
+parameter | type | description
+--------- | ---- | -----------
+key | String | The name of the object property to test for
+subject | Object | The Object to test
+reason | String | String used as the first part of the AssertionError message.
+
+### assertions.doesNotHave
+__`KixxAssert.assertions.doesNotHave(key, subject, reason)`__
+
+parameter | type | description
+--------- | ---- | -----------
+key | String | The name of the object property to test for
+subject | Object | The Object to test
+reason | String | String used as the first part of the AssertionError message.
+
+### assertions.isGreaterThan
+__`KixxAssert.assertions.isGreaterThan(a, b, reason)`__
+
+parameter | type | description
+--------- | ---- | -----------
+a | any | The control value
+b | any | The tested value
+reason | String | String used as the first part of the AssertionError message.
+
+Assertion will pass if `b` is greater than `a`.
+
+### assertions.isLessThan
+__`KixxAssert.assertions.isLessThan(a, b, reason)`__
+
+parameter | type | description
+--------- | ---- | -----------
+a | any | The control value
+b | any | The tested value
+reason | String | String used as the first part of the AssertionError message.
+
+Assertion will pass if `b` is less than `a`.
+
+### assertions.isNonEmptyString
+__`KixxAssert.assertions.isNonEmptyString(subject, reason)`__
+
+parameter | type | description
+--------- | ---- | -----------
+subject | any | The item to test
+reason | String | String used as the first part of the AssertionError message.
+
+### assertions.isNumberNotNaN
+__`KixxAssert.assertions.isNumberNotNaN(subject, reason)`__
+
+parameter | type | description
+--------- | ---- | -----------
+subject | any | The item to test
+reason | String | String used as the first part of the AssertionError message.
+
 ### helpers.identity
-__`helpers.identity(x)`__
+__`KixxAssert.helpers.identity(x)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -65,7 +280,7 @@ __Returns__ the input value `x`.
 A function that does nothing but return the parameter supplied to it. Good as a default or placeholder function.
 
 ### helpers.complement
-__`helpers.complement(f)`__
+__`KixxAssert.helpers.complement(f)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -76,7 +291,7 @@ __Returns__ a new Function which will call `f`.
 Takes a function f and returns a function g such that if called with the same arguments when f returns a "truthy" value, g returns false and when f returns a "falsy" value g returns true.
 
 ### helpers.type
-__`helpers.type(v)`__
+__`KixxAssert.helpers.type(v)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -87,7 +302,7 @@ __Returns__ a String representing the type of the value.
 Gives a single-word string description of the (native) type of a value, returning such answers as 'Object', 'Number', 'Array', or 'Null'. Does not attempt to distinguish user Object types any further, reporting them all as 'Object'.
 
 ### helpers.keys
-__`helpers.keys(x)`__
+__`KixxAssert.helpers.keys(x)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -98,7 +313,7 @@ __Returns__ an Array of the object's own enumerable property names.
 Returns a list containing the names of all the enumerable own properties of the supplied object. Note that the order of the output array is not guaranteed to be consistent across different JS platforms.
 
 ### helpers.has
-__`helpers.has(prop, x)`__
+__`KixxAssert.helpers.has(prop, x)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -110,7 +325,7 @@ __Returns__ a Boolean indicating if the property exists.
 Returns whether or not an object has an own property with the specified name.
 
 ### helpers.equal
-__`helpers.equal(a, b)`__
+__`KixxAssert.helpers.equal(a, b)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -122,7 +337,7 @@ __Returns__ a Boolean indicating if `a` and `b` are strict equal.
 Determine if both arguments are strict equal (`===`).
 
 ### helpers.greaterThan
-__`helpers.greaterThan(a, b)`__
+__`KixxAssert.helpers.greaterThan(a, b)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -134,7 +349,7 @@ __Returns__ a Boolean indicating if `b` is greater than (`>`) `a`.
 Deterimine if the second argument is greater than the first.
 
 ### helpers.lessThan
-__`helpers.lessThan(a, b)`__
+__`KixxAssert.helpers.lessThan(a, b)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -146,7 +361,7 @@ __Returns__ a Boolean indicating if `b` is less than (`<`) `a`.
 Deterimine if the second argument is less than the first.
 
 ### helpers.match
-__`helpers.match(matcher, x)`__
+__`KixxAssert.helpers.match(matcher, x)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -158,7 +373,7 @@ __Returns__ a Boolean indicating if `x` matches `matcher`.
 Determine if the second argument matches the first using a RegExp or String match. If the first argument is a String the second argument will be matched against it using `===`. Otherwise the first argument is assumed to be a RegExp and will be matched using `.test()`.
 
 ### helpers.isPrimitive
-__`helpers.isPrimitive(x)`__
+__`KixxAssert.helpers.isPrimitive(x)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -169,7 +384,7 @@ __Returns__ a Boolean indicating if `x` is not an Object or is null.
 Indicate if the argument is not an object, or is null.
 
 ### helpers.isString
-__`helpers.isString(x)`__
+__`KixxAssert.helpers.isString(x)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -180,7 +395,7 @@ __Returns__ a Boolean indicating if `x` is a String.
 Indicate if the argument is a String.
 
 ### helpers.isNumber
-__`helpers.isNumber(x)`__
+__`KixxAssert.helpers.isNumber(x)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -191,7 +406,7 @@ __Returns__ a Boolean indicating if `x` is a number.
 Indicate if the argument is a number or NaN.
 
 ### helpers.isBoolean
-__`helpers.isBoolean(x)`__
+__`KixxAssert.helpers.isBoolean(x)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -202,7 +417,7 @@ __Returns__ a Boolean indicating if `x` is a Boolean.
 Indicate if the argument is a Boolean.
 
 ### helpers.isArray
-__`helpers.isArray(x)`__
+__`KixxAssert.helpers.isArray(x)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -213,7 +428,7 @@ __Returns__ a Boolean indicating if `x` is an Array.
 Indicate if the argument is an Array.
 
 ### helpers.isObject
-__`helpers.isObject(x)`__
+__`KixxAssert.helpers.isObject(x)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -224,7 +439,7 @@ __Returns__ a Boolean indicating if `x` is a plain Object.
 Indicate if the argument is a plain Object. It will return false for Dates, RegExp, Arrays, etc.
 
 ### helpers.isFunction
-__`helpers.isFunction(x)`__
+__`KixxAssert.helpers.isFunction(x)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -235,7 +450,7 @@ __Returns__ a Boolean indicating if `x` is a Function.
 Indicate if the argument is a Function.
 
 ### helpers.isNull
-__`helpers.isNull(x)`__
+__`KixxAssert.helpers.isNull(x)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -246,7 +461,7 @@ __Returns__ a Boolean indicating if `x` is `null`.
 Indicate if the argument is `null`. It will return `false` for `undefined`.
 
 ### helpers.isUndefined
-__`helpers.isUndefined(x)`__
+__`KixxAssert.helpers.isUndefined(x)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -257,7 +472,7 @@ __Returns__ a Boolean indicating if `x` is not defined.
 Indicate if the argument is not defined using `typeof x === 'undefined'`.
 
 ### helpers.isDefined
-__`helpers.isDefined(x)`__
+__`KixxAssert.helpers.isDefined(x)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -268,7 +483,7 @@ __Returns__ a Boolean indicating if `x` is defined.
 Indicate if the argument is anything other than `undefined`, even `null`.
 
 ### helpers.isNumberNotNaN
-__`helpers.isNumberNotNaN(x)`__
+__`KixxAssert.helpers.isNumberNotNaN(x)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -279,7 +494,7 @@ __Returns__ a Boolean indicating that `x` is a Number but not NaN.
 Indicate if the first argument is a Number, but not NaN.
 
 ### helpers.isNonEmptyString
-__`helpers.isNonEmptyString(x)`__
+__`KixxAssert.helpers.isNonEmptyString(x)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -290,7 +505,7 @@ __Returns__ a Boolean indicating that `x` is a String with length greater than 0
 Indicate if the first argument is a String with length greater than zero.
 
 ### helpers.isEmpty
-__`helpers.isEmpty(x)`__
+__`KixxAssert.helpers.isEmpty(x)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -301,7 +516,7 @@ __Returns__ a Boolean indicating that `x` has its type's empty value.
 Returns Boolean `true` if the first argument is an empty Array, String, or Object with no enumerable properties. Returns Boolean `true` for all primitives which are falsy and Boolean `false` for all primitives which are truthy.
 
 ### helpers.isNotEmpty
-__`helpers.isNotEmpty(x)`__
+__`KixxAssert.helpers.isNotEmpty(x)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -312,7 +527,7 @@ __Returns__ a Boolean indicating that `x` does *not* have its type's empty value
 Returns Boolean `true` if the first argument is an empty Array, String, or Object with more than zero enumerable properties. Returns Boolean `true` for all primitives which are truthy and Boolean `false` for all primitives which are falsy.
 
 ### helpers.includes
-__`helpers.includes(item, list)`__
+__`KixxAssert.helpers.includes(item, list)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -324,7 +539,7 @@ __Returns__ a Boolean indicating that `item` was found in `list` using the `===`
 Returns Boolean true if the second argument is an Array, String, or Object which contains the first argument. In the case of a String, the first argument must be a character contained in the second argument to return true. In the case of an Array, any primitive or object which compares with `===` will return true. In the case of an Object, any primitive or object which is an enumerable property of the Object and compares wth `===` will return true.
 
 ### helpers.doesNotInclude
-__`helpers.doesNotInclude(item, list)`__
+__`KixxAssert.helpers.doesNotInclude(item, list)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -336,7 +551,7 @@ __Returns__ a Boolean indicating that `item` was *not* found in `list` using the
 Returns Boolean true if the second argument is an Array, String, or Object which does *not* contain the first argument. In the case of a String, the first argument must be a character which is *not* contained in the second argument to return `true`. In the case of an Array, any primitive or object which compares with `===` will return `false`. In the case of an Object, any primitive or object which is an enumerable property of the Object and compares wth `===` will return `false`.
 
 ### helpers.toString
-__`helpers.toString(x)`__
+__`KixxAssert.helpers.toString(x)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -356,7 +571,7 @@ console.log(new Cat()); // Cat({})
 ```
 
 ### helpers.printf
-__`helpers.printf(pattern, ...rest)`__
+__`KixxAssert.helpers.printf(pattern, ...rest)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -374,7 +589,7 @@ console.log(helpers.printf({foo: 'bar'}, 1, null)); // Object({}) Number(1) null
 ```
 
 ### helpers.assertion1
-__`helpers.assertion1(guard, reason)`__
+__`KixxAssert.helpers.assertion1(guard, reason)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -394,7 +609,7 @@ isEmpty([1], 'Is it empty?'); // Will throw AssertionError
 ```
 
 ### helpers.assertion2
-__`helpers.assertion1(guard, reason)`__
+__`KixxAssert.helpers.assertion1(guard, reason)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -414,164 +629,6 @@ const isEqualToFoo = isEqual('foo');
 
 isEqualToFoo('bar', 'is it equal to "foo"?'); // Will throw AssertionError
 ```
-
-### assertions.isOk
-__`assertions.isOk(subject, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-subject | any | The item to test
-reason | String | String used as the first part of the AssertionError message.
-
-### assertions.isNotOk
-__`assertions.isNotOk(subject, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-subject | any | The item to test
-reason | String | String used as the first part of the AssertionError message.
-
-### assertions.isEqual
-__`assertions.isEqual(expected, actual, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-expected | any | The value to test against
-actual | any | The test subject
-reason | String | String used as the first part of the AssertionError message.
-
-### assertions.isNotEqual
-__`assertions.isNotEqual(expected, actual, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-expected | any | The value to test against
-actual | any | The test subject
-reason | String | String used as the first part of the AssertionError message
-
-### assertions.isMatch
-__`assertions.isMatch(pattern, actual, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-pattern | String or RegExp | The pattern to test
-actual | any | The test subject
-reason | String | String used as the first part of the AssertionError message
-
-### assertions.isNotMatch
-__`assertions.isNotMatch(pattern, actual, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-pattern | String or RegExp | The pattern to test
-actual | any | The test subject
-reason | String | String used as the first part of the AssertionError message
-
-### assertions.isUndefined
-__`assertions.isUndefined(subject, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-subject | any | The item to test
-reason | String | String used as the first part of the AssertionError message.
-
-### assertions.isDefined
-__`assertions.isDefined(subject, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-subject | any | The item to test
-reason | String | String used as the first part of the AssertionError message.
-
-### assertions.isEmpty
-__`assertions.isEmpty(subject, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-subject | any | The item to test
-reason | String | String used as the first part of the AssertionError message.
-
-### assertions.isNotEmpty
-__`assertions.isNotEmpty(subject, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-subject | any | The item to test
-reason | String | String used as the first part of the AssertionError message.
-
-### assertions.includes
-__`assertions.includes(item, subject, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-item | any | The item expected to be found in the subject
-subject | Array, Object, or String | The item to test
-reason | String | String used as the first part of the AssertionError message.
-
-### assertions.doesNotInclude
-__`assertions.doesNotInclude(item, subject, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-item | any | The item *not* expected to be found in the subject
-subject | Array, Object, or String | The item to test
-reason | String | String used as the first part of the AssertionError message.
-
-### assertions.has
-__`assertions.has(key, subject, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-key | String | The name of the object property to test for
-subject | Object | The Object to test
-reason | String | String used as the first part of the AssertionError message.
-
-### assertions.doesNotHave
-__`assertions.doesNotHave(key, subject, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-key | String | The name of the object property to test for
-subject | Object | The Object to test
-reason | String | String used as the first part of the AssertionError message.
-
-### assertions.isGreaterThan
-__`assertions.isGreaterThan(a, b, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-a | any | The control value
-b | any | The tested value
-reason | String | String used as the first part of the AssertionError message.
-
-Assertion will pass if `b` is greater than `a`.
-
-### assertions.isLessThan
-__`assertions.isLessThan(a, b, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-a | any | The control value
-b | any | The tested value
-reason | String | String used as the first part of the AssertionError message.
-
-Assertion will pass if `b` is less than `a`.
-
-### assertions.isNonEmptyString
-__`assertions.isNonEmptyString(subject, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-subject | any | The item to test
-reason | String | String used as the first part of the AssertionError message.
-
-### assertions.isNumberNotNaN
-__`assertions.isNumberNotNaN(subject, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-subject | any | The item to test
-reason | String | String used as the first part of the AssertionError message.
 
 
 Copyright and License
