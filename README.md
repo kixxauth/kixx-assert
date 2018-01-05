@@ -33,24 +33,24 @@ __Errors__
 
 __Assertions__
 
-- [isOk(subject, reason)](#assertionsisok)
-- [isNotOk(subject, reason)](#assertionsisnotok)
-- [isEqual(expected, actual, reason)](#assertionsisequal)
-- [isNotEqual(expected, actual, reason)](#assertionsisnotequal)
-- [isMatch(pattern, actual, reason)](#assertionsismatch)
-- [isNotMatch(pattern, actual, reason)](#assertionsisnotmatch)
-- [isUndefined(subject, reason)](#assertionsisundefined)
-- [isDefined(subject, reason)](#assertionsisdefined)
-- [isEmpty(subject, reason)](#assertionsisempty)
-- [isNotEmpty(subject, reason)](#assertionsisnotempty)
-- [includes(item, subject, reason)](#assertionsincludes)
-- [doesNotInclude(item, subject, reason)](#assertionsdoesnotinclude)
-- [has(key, subject, reason)](#assertionshas)
-- [doesNotHave(key, subject, reason)](#assertionsdoesnothave)
-- [isGreaterThan(a, b, reason)](#assertionsisgreaterthan)
-- [isLessThan(a, b, reason)](#assertionsislessthan)
-- [isNonEmptyString(subject, reason)](#assertionsisnonemptystring)
-- [isNumberNotNaN(subject, reason)](#assertionsisnumbernotnan)
+- [isOk(subject, reason)](#assertisok)
+- [isNotOk(subject, reason)](#assertisnotok)
+- [isEqual(expected, actual, reason)](#assertisequal)
+- [isNotEqual(expected, actual, reason)](#assertisnotequal)
+- [isMatch(pattern, actual, reason)](#assertismatch)
+- [isNotMatch(pattern, actual, reason)](#assertisnotmatch)
+- [isUndefined(subject, reason)](#assertisundefined)
+- [isDefined(subject, reason)](#assertisdefined)
+- [isEmpty(subject, reason)](#assertisempty)
+- [isNotEmpty(subject, reason)](#assertisnotempty)
+- [includes(item, subject, reason)](#assertincludes)
+- [doesNotInclude(item, subject, reason)](#assertdoesnotinclude)
+- [has(key, subject, reason)](#asserthas)
+- [doesNotHave(key, subject, reason)](#assertdoesnothave)
+- [isGreaterThan(a, b, reason)](#assertisgreaterthan)
+- [isLessThan(a, b, reason)](#assertislessthan)
+- [isNonEmptyString(subject, reason)](#assertisnonemptystring)
+- [isNumberNotNaN(subject, reason)](#assertisnumbernotnan)
 
 __helpers__
 
@@ -111,8 +111,8 @@ AssertionError.prototype.constructor = AssertionError;
 ```
 
 
-### assertions.isOk
-__`KixxAssert.assertions.isOk(subject, reason)`__
+### assert.isOk
+__`KixxAssert.assert.isOk(subject, reason)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -121,8 +121,8 @@ reason | String | String used as the first part of the AssertionError message.
 
 Passes if the subject is truthy.
 
-### assertions.isNotOk
-__`KixxAssert.assertions.isNotOk(subject, reason)`__
+### assert.isNotOk
+__`KixxAssert.assert.isNotOk(subject, reason)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -131,8 +131,8 @@ reason | String | String used as the first part of the AssertionError message.
 
 Passes if the subject is falsy.
 
-### assertions.isEqual
-__`KixxAssert.assertions.isEqual(expected, actual, reason)`__
+### assert.isEqual
+__`KixxAssert.assert.isEqual(expected, actual, reason)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -142,8 +142,8 @@ reason | String | String used as the first part of the AssertionError message.
 
 Passes if expected strictly equals `===` actual.
 
-### assertions.isNotEqual
-__`KixxAssert.assertions.isNotEqual(expected, actual, reason)`__
+### assert.isNotEqual
+__`KixxAssert.assert.isNotEqual(expected, actual, reason)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -153,8 +153,8 @@ reason | String | String used as the first part of the AssertionError message
 
 Passes if expected does not strictly equal `===` actual.
 
-### assertions.isMatch
-__`KixxAssert.assertions.isMatch(pattern, actual, reason)`__
+### assert.isMatch
+__`KixxAssert.assert.isMatch(pattern, actual, reason)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -164,8 +164,8 @@ reason | String | String used as the first part of the AssertionError message
 
 Passes if actual matches the pattern String or RegExp.
 
-### assertions.isNotMatch
-__`KixxAssert.assertions.isNotMatch(pattern, actual, reason)`__
+### assert.isNotMatch
+__`KixxAssert.assert.isNotMatch(pattern, actual, reason)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -175,8 +175,8 @@ reason | String | String used as the first part of the AssertionError message
 
 Passes if actual does *not* match the pattern String or RegExp.
 
-### assertions.isUndefined
-__`KixxAssert.assertions.isUndefined(subject, reason)`__
+### assert.isUndefined
+__`KixxAssert.assert.isUndefined(subject, reason)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -185,8 +185,8 @@ reason | String | String used as the first part of the AssertionError message.
 
 Passes if the subject is undefined. Fails if the subject is `null` or `false`.
 
-### assertions.isDefined
-__`KixxAssert.assertions.isDefined(subject, reason)`__
+### assert.isDefined
+__`KixxAssert.assert.isDefined(subject, reason)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -195,8 +195,8 @@ reason | String | String used as the first part of the AssertionError message.
 
 Passes if the subject is anything other than undefined.
 
-### assertions.isEmpty
-__`KixxAssert.assertions.isEmpty(subject, reason)`__
+### assert.isEmpty
+__`KixxAssert.assert.isEmpty(subject, reason)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -205,8 +205,8 @@ reason | String | String used as the first part of the AssertionError message.
 
 Passes if the subject is an empty Array, String, or Object with no enumerable properties. Also passes for all primitives which are falsy.
 
-### assertions.isNotEmpty
-__`KixxAssert.assertions.isNotEmpty(subject, reason)`__
+### assert.isNotEmpty
+__`KixxAssert.assert.isNotEmpty(subject, reason)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -215,8 +215,8 @@ reason | String | String used as the first part of the AssertionError message.
 
 Passes if the subject is a *non* empty Array, String, or Object with enumerable properties. Also passes for all primitives which are truthy.
 
-### assertions.includes
-__`KixxAssert.assertions.includes(item, subject, reason)`__
+### assert.includes
+__`KixxAssert.assert.includes(item, subject, reason)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -226,8 +226,8 @@ reason | String | String used as the first part of the AssertionError message.
 
 Passes if the subject contains the item. In the case of a String, the item must be a character contained in the subject. In the case of an Array, any primitive or object which strictly equals an item in the Array will pass. In the case of an Object, any primitive or object strictly equals an enumerable property of the Object will pass.
 
-### assertions.doesNotInclude
-__`KixxAssert.assertions.doesNotInclude(item, subject, reason)`__
+### assert.doesNotInclude
+__`KixxAssert.assert.doesNotInclude(item, subject, reason)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -237,8 +237,8 @@ reason | String | String used as the first part of the AssertionError message.
 
 Passes if the subject does *not* contain the item. In the case of a String, the item must be a character *not* in the subject. In the case of an Array, any primitive or object which strictly equals an item in the Array will fail. In the case of an Object, any primitive or object strictly equals an enumerable property of the Object will fail.
 
-### assertions.has
-__`KixxAssert.assertions.has(key, subject, reason)`__
+### assert.has
+__`KixxAssert.assert.has(key, subject, reason)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -248,8 +248,8 @@ reason | String | String used as the first part of the AssertionError message.
 
 Passes if subject has own property key.
 
-### assertions.doesNotHave
-__`KixxAssert.assertions.doesNotHave(key, subject, reason)`__
+### assert.doesNotHave
+__`KixxAssert.assert.doesNotHave(key, subject, reason)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -259,8 +259,8 @@ reason | String | String used as the first part of the AssertionError message.
 
 Passes if subject does *not* have own property key.
 
-### assertions.isGreaterThan
-__`KixxAssert.assertions.isGreaterThan(a, b, reason)`__
+### assert.isGreaterThan
+__`KixxAssert.assert.isGreaterThan(a, b, reason)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -270,8 +270,8 @@ reason | String | String used as the first part of the AssertionError message.
 
 Assertion will pass if `b` is greater than `a`.
 
-### assertions.isLessThan
-__`KixxAssert.assertions.isLessThan(a, b, reason)`__
+### assert.isLessThan
+__`KixxAssert.assert.isLessThan(a, b, reason)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -281,8 +281,8 @@ reason | String | String used as the first part of the AssertionError message.
 
 Assertion will pass if `b` is less than `a`.
 
-### assertions.isNonEmptyString
-__`KixxAssert.assertions.isNonEmptyString(subject, reason)`__
+### assert.isNonEmptyString
+__`KixxAssert.assert.isNonEmptyString(subject, reason)`__
 
 parameter | type | description
 --------- | ---- | -----------
@@ -291,8 +291,8 @@ reason | String | String used as the first part of the AssertionError message.
 
 Passes if subject is a String with length greater than 0.
 
-### assertions.isNumberNotNaN
-__`KixxAssert.assertions.isNumberNotNaN(subject, reason)`__
+### assert.isNumberNotNaN
+__`KixxAssert.assert.isNumberNotNaN(subject, reason)`__
 
 parameter | type | description
 --------- | ---- | -----------
