@@ -264,13 +264,7 @@
 			assert.isEqual('Object :: expected Object({}) not to be empty', err.message);
 		}
 
-		try {
-			assert.isNotEmpty(d, 'Date');
-			throw new AssertionError('Should have thrown!');
-		} catch (err) {
-			assert.isMatch(/^Date :: expected Date\([\d\w\s\-():]+\) not to be empty$/, err.message);
-		}
-
+		assert.isNotEmpty(d, 'Date');
 		assert.isNotEmpty(fn, 'Function');
 		assert.isNotEmpty(cat, 'Cat');
 	});

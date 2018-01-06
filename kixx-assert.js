@@ -125,7 +125,7 @@
 	}
 
 	function isPrimitive(x) {
-		return x === null || typeof x !== 'object';
+		return x === null || typeof x !== 'object' && typeof x !== 'function';
 	}
 
 	function isString(x) {
@@ -149,7 +149,7 @@
 	}
 
 	function isFunction(x) {
-		return type(x) === 'Function';
+		return typeof x === 'function';
 	}
 
 	function isNull(x) {
@@ -169,10 +169,6 @@
 	}
 
 	function isEmpty(x) {
-		if (isPrimitive(x)) {
-			return !x;
-		}
-
 		switch (type(x)) {
 			case 'Array':
 			case 'String':
@@ -180,7 +176,7 @@
 			case 'Object':
 				return keys(x).length === 0;
 			default:
-				return Boolean(x);
+				return !x;
 		}
 	}
 
