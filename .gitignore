@@ -24,3 +24,6 @@ node_modules/
 # Output of 'npm pack'
 *.tgz
 
+# There are no dependencies, so we ignore package-lock
+package-lock.json
+
