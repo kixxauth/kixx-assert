@@ -88,6 +88,10 @@ __helpers__
 ### AssertionError
 An Error constructor used to identify assertion errors. Passing in a caller can help isolate stack traces to make them more usable.
 
+Access in browsers: `window.KixxAssert.AssertionError`;
+
+Access in Node.js: `require('kixx-assert').AssertionError`;
+
 ```js
 // Example:
 function myFunction() {
@@ -110,6 +114,10 @@ AssertionError.prototype.name = 'AssertionError';
 AssertionError.prototype.constructor = AssertionError;
 ```
 
+## Assertions
+Access in browsers: `window.KixxAssert.assert`;
+
+Access in Node.js: `require('kixx-assert').assert`;
 
 ### assert.isOk
 __`KixxAssert.assert.isOk(subject, reason)`__
@@ -300,6 +308,11 @@ subject | any | The item to test
 reason | String | String used as the first part of the AssertionError message.
 
 Passes if subject is a Number but not NaN.
+
+## Helpers
+Access in browsers: `window.KixxAssert.helpers`;
+
+Access in Node.js: `require('kixx-assert').helpers`;
 
 ### helpers.identity
 __`KixxAssert.helpers.identity(x)`__
