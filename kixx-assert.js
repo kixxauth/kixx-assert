@@ -66,7 +66,7 @@
 			}
 		}
 
-		this.stack = this.stack;
+		props.stack = this.stack;
 		props.name = this.name;
 		return props;
 	};

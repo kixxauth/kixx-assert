@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/kixxauth/kixx-assert/issues"
   },
-  "homepage": "https://github.com/kixxauth/kixx-assert#readme"
+  "homepage": "https://github.com/kixxauth/kixx-assert#readme",
+  "devDependencies": {
+    "eslint": "6.8.0"
+  }
 }
