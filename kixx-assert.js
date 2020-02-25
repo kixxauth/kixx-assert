@@ -43,8 +43,10 @@
 
 	function AssertionError (message, props, caller) {
 		this.message = message || 'Unspecified AssertionError';
-		caller = caller || AssertionError;
-		Error.captureStackTrace(this, caller);
+		if (typeof Error.captureStackTrace === 'function') {
+			caller = caller || AssertionError;
+			Error.captureStackTrace(this, caller);
+		}
 	}
 
 	AssertionError.prototype = Object.create(Error.prototype);
