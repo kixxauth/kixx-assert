@@ -1,6 +1,6 @@
 {
   "name": "kixx-assert",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "description": "A functional assertion library for ECMAScript",
   "main": "kixx-assert.js",
   "scripts": {
@@ -21,7 +21,7 @@
     "testing"
   ],
   "devDependencies": {
-    "eslint": "~6.8.0"
+    "eslint": "~8.23.1"
   },
   "author": "Kris Walker (www.kixx.name)",
   "license": "MIT",
