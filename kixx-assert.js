@@ -131,23 +131,36 @@
 	}
 
 	function isString(x) {
-		return type(x) === 'String';
+		return typeof x === 'string';
 	}
 
 	function isNumber(x) {
-		return type(x) === 'Number';
+		return typeof x === 'number';
 	}
 
 	function isBoolean(x) {
-		return type(x) === 'Boolean';
+		return typeof x === 'boolean';
 	}
 
 	function isArray(x) {
-		return type(x) === 'Array';
+		if (x && typeof x === 'object') {
+			if (isFunction(Array.isArray)) {
+				return Array.isArray(x);
+			}
+			return type(x) === 'Array';
+		}
+		return false;
 	}
 
 	function isObject(x) {
-		return type(x) === 'Object';
+		if (x && typeof x === 'object') {
+			if (isFunction(Object.getPrototypeOf)) {
+				var proto = Object.getPrototypeOf;
+				return proto === Object.prototype || proto === null;
+			}
+			return type(x) === 'Object';
+		}
+		return false;
 	}
 
 	function isFunction(x) {
@@ -163,11 +176,11 @@
 	}
 
 	function isNumberNotNaN(x) {
-		return type(x) === 'Number' && !isNaN(x);
+		return isNumber(x) && !isNaN(x);
 	}
 
 	function isNonEmptyString(x) {
-		return type(x) === 'String' && x.length > 0;
+		return isString(x) && x.length > 0;
 	}
 
 	function isEmpty(x) {
