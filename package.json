@@ -23,7 +23,7 @@
   "devDependencies": {
     "eslint": "~8.23.1"
   },
-  "author": "Kris Walker (www.kixx.name)",
+  "author": "Kris Walker (www.kriswalker.me)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/kixxauth/kixx-assert/issues"
