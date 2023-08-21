@@ -203,7 +203,7 @@ module.exports =  {
             'error',
         ],
         'no-underscore-dangle': [
-            'error',
+            'off',
         ],
         'no-unmodified-loop-condition': [
             'error',
@@ -319,7 +319,7 @@ module.exports =  {
             'error',
         ],
         'space-infix-ops': [
-            'error',
+            'off',
         ],
         'space-unary-ops': [
             'error',

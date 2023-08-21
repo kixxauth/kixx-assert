@@ -15,6 +15,9 @@
   "files": [
     "kixx-assert.js"
   ],
+  "devDependencies": {
+    "eslint": "~8.47.0"
+  },
   "keywords": [
     "functional",
     "assertion",
