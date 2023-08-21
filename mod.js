@@ -518,9 +518,7 @@ export const assertThrowsErrorMessage = curryAssertion2((messagePart, fn, messag
 
         if (!isString(err.message) || !err.message.includes(messagePart)) {
             let msg = 'Expected function to throw error message including part ';
-            msg += toFriendlyString(messagePart);
-            msg += ' but instead threw error message ';
-            msg += toFriendlyString(err.message);
+            msg += `"${ messagePart }" but instead threw error message ${ err.message }`;
             return msg + messageSuffix;
         }
     }
