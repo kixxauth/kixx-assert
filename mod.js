@@ -261,6 +261,12 @@ export function toFriendlyString(x) {
     if (isString(x)) {
         return 'String("'+ x +'")';
     }
+    if (isBigInt(x)) {
+        return 'BigInt('+ x +')';
+    }
+    // WARNING
+    // Checking isNumber() will return true for BigInt instances as well as
+    // Numbers, so the isBigInt() check needs to come before isNumber().
     if (isNumber(x)) {
         return 'Number('+ x +')';
     }
@@ -269,9 +275,6 @@ export function toFriendlyString(x) {
     }
     if (isSymbol(x)) {
         return x.toString();
-    }
-    if (isBigInt(x)) {
-        return 'BigInt('+ x +')';
     }
     if (isUndefined(x)) {
         return 'undefined';
