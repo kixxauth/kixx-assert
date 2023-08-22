@@ -209,19 +209,23 @@ export function isEqual(a, b) {
     return a !== a && b !== b;
 }
 
-export function stringMatches(matcher, x) {
+export function doesMatch(matcher, x) {
     if (arguments.length < 2) {
-        return function curriedStringMatches(_x) {
-            return stringMatches(matcher, _x);
+        return function curriedDoesMatch(_x) {
+            return doesMatch(matcher, _x);
         };
     }
-    if (!isString(x)) {
-        return false;
+    if (isEqual(matcher, x)) {
+        return true;
     }
-    if (matcher && typeof matcher.test === 'function') {
+    if (typeof matcher?.test === 'function') {
         return matcher.test(x);
     }
-    return matcher === x;
+    if (typeof x?.includes === 'function') {
+        return x.includes(matcher);
+    }
+
+    return false;
 }
 
 export function includes(item, list) {
@@ -383,16 +387,16 @@ export const assertNotEqual = curryAssertion2((expected, actual, messageSuffix) 
     return null;
 });
 
-export const assertStringMatches = curryAssertion2((matcher, actual, messageSuffix) => {
-    if (!stringMatches(matcher, actual)) {
+export const assertMatches = curryAssertion2((matcher, actual, messageSuffix) => {
+    if (!doesMatch(matcher, actual)) {
         const msg = `Expected ${ toFriendlyString(actual) } to match `;
         return msg + toFriendlyString(matcher) + messageSuffix;
     }
     return null;
 });
 
-export const assertStringNotMatches = curryAssertion2((matcher, actual, messageSuffix) => {
-    if (!stringMatches(matcher, actual)) {
+export const assertNotMatches = curryAssertion2((matcher, actual, messageSuffix) => {
+    if (doesMatch(matcher, actual)) {
         const msg = `Expected ${ toFriendlyString(actual) } NOT to match `;
         return msg + toFriendlyString(matcher) + messageSuffix;
     }
