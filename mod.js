@@ -107,7 +107,7 @@ export function isPlainObject(x) {
     if (!x || typeof x !== 'object') {
         return false;
     }
-    if (!Object.prototypeOf(x)) {
+    if (!Object.getPrototypeOf(x)) {
         return true;
     }
     return x.constructor && x.constructor.name === 'Object';
@@ -115,6 +115,13 @@ export function isPlainObject(x) {
 
 export function isDate(x) {
     return protoToString.call(x) === '[object Date]';
+}
+
+export function isValidDate(x) {
+    if (isDate(x)) {
+        return !Number.isNaN(x.getTime());
+    }
+    return false;
 }
 
 export function isRegExp(x) {
@@ -287,8 +294,11 @@ export function toFriendlyString(x) {
         }
         return 'Array([0..'+ (x.length - 1) +'])';
     }
-    if (isDate(x)) {
+    if (isValidDate(x)) {
         return 'Date('+ x.toISOString() +')';
+    }
+    if (isDate(x)) {
+        return 'Date(Invalid)';
     }
     if (isRegExp(x)) {
         return 'RegExp('+ x +')';
@@ -297,6 +307,18 @@ export function toFriendlyString(x) {
     const name = x.constructor?.name || 'Object';
 
     return name +'('+ x +')';
+}
+
+export function curryAssertion1(guard) {
+    return function curriedAssertion1(x, message) {
+        message = message ? ` ${ message }` : '.';
+        const msg = guard(x, message);
+        if (msg) {
+            throw new AssertionError(msg, null, curriedAssertion1);
+        }
+
+        return null;
+    };
 }
 
 export function curryAssertion2(guard) {
