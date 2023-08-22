@@ -13,6 +13,8 @@ import test_isNonEmptyString from './is-non-empty-string-test.js';
 import test_isNumber from './is-number-test.js';
 import test_isNumberNotNaN from './is-number-not-nan-test.js';
 import test_isString from './is-string-test.js';
+import test_isSymbol from './is-symbol-test.js';
+import test_isUndefined from './is-undefined-test.js';
 
 
 test_assert();
@@ -30,3 +32,5 @@ test_isNonEmptyString();
 test_isNumber();
 test_isNumberNotNaN();
 test_isString();
+test_isSymbol();
+test_isUndefined();
