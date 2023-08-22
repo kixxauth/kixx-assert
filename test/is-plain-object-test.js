@@ -1,13 +1,13 @@
 import {
     AssertionError,
     toFriendlyString,
-    isNumber
+    isPlainObject
 } from '../mod.js';
 
 import { getValues } from './values.js';
 
 
-export default function test_isNumber() {
+export default function test_isPlainObject() {
     const list = [
         false, // [ null, 'null' ],
         false, // [ _undefined, 'undefined' ],
@@ -15,18 +15,18 @@ export default function test_isNumber() {
         false, // [ false, 'false' ],
         false, // [ Boolean(1), 'Boolean(1)' ],
         false, // [ Boolean(0), 'Boolean(0)' ],
-        true, // [ -1, '-1' ],
-        true, // [ 0, '0' ],
-        true, // [ 1, '1' ],
-        true, // [ 0.1, '0.1' ],
-        true, // [ Number(-1), 'Number(-1)' ],
-        true, // [ Number(0), 'Number(0)' ],
-        true, // [ Number(1), 'Number(1)' ],
-        true, // [ Number(0.1), 'Number(0.1)' ],
-        true, // [ NaN, 'NaN' ],
-        true, // [ BigInt(-1), 'BigInt(-1)' ],
-        true, // [ BigInt(0), 'BigInt(0)' ],
-        true, // [ BigInt(1), 'BigInt(1)' ],
+        false, // [ -1, '-1' ],
+        false, // [ 0, '0' ],
+        false, // [ 1, '1' ],
+        false, // [ 0.1, '0.1' ],
+        false, // [ Number(-1), 'Number(-1)' ],
+        false, // [ Number(0), 'Number(0)' ],
+        false, // [ Number(1), 'Number(1)' ],
+        false, // [ Number(0.1), 'Number(0.1)' ],
+        false, // [ NaN, 'NaN' ],
+        false, // [ BigInt(-1), 'BigInt(-1)' ],
+        false, // [ BigInt(0), 'BigInt(0)' ],
+        false, // [ BigInt(1), 'BigInt(1)' ],
         false, // [ '1', '"1"' ],
         false, // [ '0.1', '"0.1"' ],
         false, // [ '7n', '"7n"' ],
@@ -41,9 +41,9 @@ export default function test_isNumber() {
         false, // [ funcDef, 'function definition' ],
         false, // [ () => { return null; }, 'anonymous arrow function' ],
         false, // [ function () { return null; }, 'anonymous function' ],
-        false, // [ {}, 'empty Object {}' ],
-        false, // [ Object.create(null), 'Object.create(null)' ],
-        false, // [ { foo: 'bar' }, '{ foo: "bar" }' ],
+        true, // [ {}, 'empty Object {}' ],
+        true, // [ Object.create(null), 'Object.create(null)' ],
+        true, // [ { foo: 'bar' }, '{ foo: "bar" }' ],
         false, // [ new Dog(), 'new Dog()' ],
         false, // [ new Cat(), 'new Cat()' ],
         false, // [ new Date(), 'new Date()' ],
@@ -80,7 +80,7 @@ export default function test_isNumber() {
             );
         }
 
-        const result = isNumber(val);
+        const result = isPlainObject(val);
 
         if (result !== expectedResult) {
             let msg = `Got ${ toFriendlyString(result) }`;
@@ -90,5 +90,5 @@ export default function test_isNumber() {
     });
 
     // eslint-disable-next-line no-console,no-undef
-    console.log('Test isNumber() passed.');
+    console.log('Test isPlainObject() passed.');
 }

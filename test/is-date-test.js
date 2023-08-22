@@ -1,13 +1,13 @@
 import {
     AssertionError,
     toFriendlyString,
-    isNumber
+    isDate
 } from '../mod.js';
 
 import { getValues } from './values.js';
 
 
-export default function test_isNumber() {
+export default function test_isDate() {
     const list = [
         false, // [ null, 'null' ],
         false, // [ _undefined, 'undefined' ],
@@ -15,18 +15,18 @@ export default function test_isNumber() {
         false, // [ false, 'false' ],
         false, // [ Boolean(1), 'Boolean(1)' ],
         false, // [ Boolean(0), 'Boolean(0)' ],
-        true, // [ -1, '-1' ],
-        true, // [ 0, '0' ],
-        true, // [ 1, '1' ],
-        true, // [ 0.1, '0.1' ],
-        true, // [ Number(-1), 'Number(-1)' ],
-        true, // [ Number(0), 'Number(0)' ],
-        true, // [ Number(1), 'Number(1)' ],
-        true, // [ Number(0.1), 'Number(0.1)' ],
-        true, // [ NaN, 'NaN' ],
-        true, // [ BigInt(-1), 'BigInt(-1)' ],
-        true, // [ BigInt(0), 'BigInt(0)' ],
-        true, // [ BigInt(1), 'BigInt(1)' ],
+        false, // [ -1, '-1' ],
+        false, // [ 0, '0' ],
+        false, // [ 1, '1' ],
+        false, // [ 0.1, '0.1' ],
+        false, // [ Number(-1), 'Number(-1)' ],
+        false, // [ Number(0), 'Number(0)' ],
+        false, // [ Number(1), 'Number(1)' ],
+        false, // [ Number(0.1), 'Number(0.1)' ],
+        false, // [ NaN, 'NaN' ],
+        false, // [ BigInt(-1), 'BigInt(-1)' ],
+        false, // [ BigInt(0), 'BigInt(0)' ],
+        false, // [ BigInt(1), 'BigInt(1)' ],
         false, // [ '1', '"1"' ],
         false, // [ '0.1', '"0.1"' ],
         false, // [ '7n', '"7n"' ],
@@ -46,9 +46,9 @@ export default function test_isNumber() {
         false, // [ { foo: 'bar' }, '{ foo: "bar" }' ],
         false, // [ new Dog(), 'new Dog()' ],
         false, // [ new Cat(), 'new Cat()' ],
-        false, // [ new Date(), 'new Date()' ],
-        false, // [ new Date(2019, 0, 3, 4, 20, 1, 10), 'new Date(2019, 0, 3, 4, 20, 1, 10)' ],
-        false, // [ new Date('invalid'), 'new Date("invalid")', false ],
+        true, // [ new Date(), 'new Date()' ],
+        true, // [ new Date(2019, 0, 3, 4, 20, 1, 10), 'new Date(2019, 0, 3, 4, 20, 1, 10)' ],
+        true, // [ new Date('invalid'), 'new Date("invalid")', false ],
         false, // [ [], 'empty Array []' ],
         false, // [ [ 1 ], 'Array [ 1 ]' ],
         false, // [ new Map(), 'new Map()' ],
@@ -80,7 +80,7 @@ export default function test_isNumber() {
             );
         }
 
-        const result = isNumber(val);
+        const result = isDate(val);
 
         if (result !== expectedResult) {
             let msg = `Got ${ toFriendlyString(result) }`;
@@ -90,5 +90,5 @@ export default function test_isNumber() {
     });
 
     // eslint-disable-next-line no-console,no-undef
-    console.log('Test isNumber() passed.');
+    console.log('Test isDate() passed.');
 }

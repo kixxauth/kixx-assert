@@ -47,6 +47,8 @@ export default function test_isNonEmptyString() {
         false, // [ new Dog(), 'new Dog()' ],
         false, // [ new Cat(), 'new Cat()' ],
         false, // [ new Date(), 'new Date()' ],
+        false, // [ new Date(2019, 0, 3, 4, 20, 1, 10), 'new Date(2019, 0, 3, 4, 20, 1, 10)' ],
+        false, // [ new Date('invalid'), 'new Date("invalid")', false ],
         false, // [ [], 'empty Array []' ],
         false, // [ [ 1 ], 'Array [ 1 ]' ],
         false, // [ new Map(), 'new Map()' ],

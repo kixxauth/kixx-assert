@@ -48,6 +48,8 @@ export default function test_assert() {
         true, // [ new Dog(), 'new Dog()' ],
         true, // [ new Cat(), 'new Cat()' ],
         true, // [ new Date(), 'new Date()' ],
+        true, // [ new Date(2019, 0, 3, 4, 20, 1, 10), 'new Date(2019, 0, 3, 4, 20, 1, 10)' ],
+        true, // [ new Date('invalid'), 'new Date("invalid")', false ],
         true, // [ [], 'empty Array []' ],
         true, // [ [ 1 ], 'Array [ 1 ]' ],
         true, // [ new Map(), 'new Map()' ],

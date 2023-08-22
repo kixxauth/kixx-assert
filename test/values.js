@@ -67,6 +67,8 @@ export function getValues(mapper, _undefined) {
         [ new Dog(), 'new Dog()' ],
         [ new Cat(), 'new Cat()' ],
         [ new Date(), 'new Date()' ],
+        [ new Date(2019, 0, 3, 4, 20, 1, 10), 'new Date(2019, 0, 3, 4, 20, 1, 10)' ],
+        [ new Date('invalid'), 'new Date("invalid")', false ],
         [ [], 'empty Array []' ],
         [ [ 1 ], 'Array [ 1 ]' ],
         [ new Map(), 'new Map()' ],
