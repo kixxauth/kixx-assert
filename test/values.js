@@ -34,7 +34,7 @@ export function getValues(mapper, _undefined) {
         [ true, 'true' ],
         [ false, 'false' ],
         [ Boolean(1), 'Boolean(1)' ],
-        [ Boolean(0), 'Boolean(2)' ],
+        [ Boolean(0), 'Boolean(0)' ],
         [ -1, '-1' ],
         [ 0, '0' ],
         [ 1, '1' ],
