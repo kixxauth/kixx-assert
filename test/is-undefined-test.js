@@ -55,6 +55,10 @@ export default function test_isUndefined() {
         false, // [ new Map([[ 'one', 1 ], [ 'two', 2 ]]), 'new Map([[ "one", 1 ], [ "two", 2 ]])' ],
         false, // [ new Set(), 'new Set()' ],
         false, // [ new Set([ 1, 2 ]), 'new Set([ 1, 2 ])' ],
+        false, // [ new WeakMap(), 'new WeakMap()' ],
+        false, // [ new WeakSet(), 'new WeakSet()' ],
+        false, // [ /^start/i, '/^start/i' ],
+        false, // [ new RegExp('^start', 'i'), 'new RegExp("^start", "i")' ],
     ];
 
     const tests = getValues(([ val, messageSuffix ], index) => {

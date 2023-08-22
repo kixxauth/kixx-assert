@@ -75,6 +75,10 @@ export function getValues(mapper, _undefined) {
         [ new Map([[ 'one', 1 ], [ 'two', 2 ]]), 'new Map([[ "one", 1 ], [ "two", 2 ]])' ],
         [ new Set(), 'new Set()' ],
         [ new Set([ 1, 2 ]), 'new Set([ 1, 2 ])' ],
+        [ new WeakMap(), 'new WeakMap()' ],
+        [ new WeakSet(), 'new WeakSet()' ],
+        [ /^start/i, '/^start/i' ],
+        [ new RegExp('^start', 'i'), 'new RegExp("^start", "i")' ],
     ];
     /* eslint-enable brace-style, array-bracket-spacing, max-statements-per-line */
 

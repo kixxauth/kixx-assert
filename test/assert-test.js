@@ -56,6 +56,10 @@ export default function test_assert() {
         true, // [ new Map([[ 'one', 1 ], [ 'two', 2 ]]), 'new Map([[ "one", 1 ], [ "two", 2 ]])' ],
         true, // [ new Set(), 'new Set()' ],
         true, // [ new Set([ 1, 2 ]), 'new Set([ 1, 2 ])' ],
+        true, // [ new WeakMap(), 'new WeakMap()' ],
+        true, // [ new WeakSet(), 'new WeakSet()' ],
+        true, // [ /^start/i, '/^start/i' ],
+        true, // [ new RegExp('^start', 'i'), 'new RegExp("^start", "i")' ],
     ];
 
     const tests = getValues(([ val, messageSuffix ], index) => {

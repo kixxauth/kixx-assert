@@ -1,39 +1,38 @@
 import {
     AssertionError,
     toFriendlyString,
-    assertThrowsErrorMessage,
-    assertFalsy
+    isValidDate
 } from '../mod.js';
 
 import { getValues } from './values.js';
 
 
-export default function test_assertFalsy() {
+export default function test_isValidDate() {
     const list = [
-        true, // [ null, 'null' ],
-        true, // [ _undefined, 'undefined' ],
+        false, // [ null, 'null' ],
+        false, // [ _undefined, 'undefined' ],
         false, // [ true, 'true' ],
-        true, // [ false, 'false' ],
+        false, // [ false, 'false' ],
         false, // [ Boolean(1), 'Boolean(1)' ],
-        true, // [ Boolean(0), 'Boolean(0)' ],
+        false, // [ Boolean(0), 'Boolean(0)' ],
         false, // [ -1, '-1' ],
-        true, // [ 0, '0' ],
+        false, // [ 0, '0' ],
         false, // [ 1, '1' ],
         false, // [ 0.1, '0.1' ],
         false, // [ Number(-1), 'Number(-1)' ],
-        true, // [ Number(0), 'Number(0)' ],
+        false, // [ Number(0), 'Number(0)' ],
         false, // [ Number(1), 'Number(1)' ],
         false, // [ Number(0.1), 'Number(0.1)' ],
-        true, // [ NaN, 'NaN' ],
+        false, // [ NaN, 'NaN' ],
         false, // [ BigInt(-1), 'BigInt(-1)' ],
-        true, // [ BigInt(0), 'BigInt(0)' ],
+        false, // [ BigInt(0), 'BigInt(0)' ],
         false, // [ BigInt(1), 'BigInt(1)' ],
         false, // [ '1', '"1"' ],
         false, // [ '0.1', '"0.1"' ],
         false, // [ '7n', '"7n"' ],
-        true, // [ '', 'empty String' ],
+        false, // [ '', 'empty String' ],
         false, // [ 'foo', '"foo"' ],
-        true, // [ String(''), 'String("")' ],
+        false, // [ String(''), 'String("")' ],
         false, // [ String('foo'), 'String("foo")' ],
         false, // [ Symbol(), 'Symbol()', ],
         false, // [ Symbol('foo'), 'Symbol("foo")' ],
@@ -47,8 +46,8 @@ export default function test_assertFalsy() {
         false, // [ { foo: 'bar' }, '{ foo: "bar" }' ],
         false, // [ new Dog(), 'new Dog()' ],
         false, // [ new Cat(), 'new Cat()' ],
-        false, // [ new Date(), 'new Date()' ],
-        false, // [ new Date(2019, 0, 3, 4, 20, 1, 10), 'new Date(2019, 0, 3, 4, 20, 1, 10)' ],
+        true, // [ new Date(), 'new Date()' ],
+        true, // [ new Date(2019, 0, 3, 4, 20, 1, 10), 'new Date(2019, 0, 3, 4, 20, 1, 10)' ],
         false, // [ new Date('invalid'), 'new Date("invalid")', false ],
         false, // [ [], 'empty Array []' ],
         false, // [ [ 1 ], 'Array [ 1 ]' ],
@@ -63,8 +62,8 @@ export default function test_assertFalsy() {
     ];
 
     const tests = getValues(([ val, messageSuffix ], index) => {
-        const expectedToPass = list[index];
-        return [ val, `for ${ messageSuffix };`, expectedToPass ];
+        const expectedResult = list[index];
+        return [ val, `for ${ messageSuffix };`, expectedResult ];
     });
 
     if (tests.length !== list.length) {
@@ -73,29 +72,27 @@ export default function test_assertFalsy() {
         );
     }
 
-    tests.forEach(([ val, messageSuffix, expectedToPass ]) => {
+    tests.forEach(([ val, messageSuffix, expectedResult ]) => {
         if (typeof messageSuffix !== 'string') {
             throw new AssertionError(
                 `Expected messageSuffix ${ toFriendlyString(messageSuffix) } to be a String`
             );
         }
-        if (typeof expectedToPass !== 'boolean') {
+        if (typeof expectedResult !== 'boolean') {
             throw new AssertionError(
-                `Expected expectedToPass ${ toFriendlyString(expectedToPass) } to be a Boolean`
+                `Expected expectedResult ${ toFriendlyString(expectedResult) } to be a Boolean`
             );
         }
 
-        messageSuffix = 'with ' + messageSuffix;
+        const result = isValidDate(val);
 
-        if (expectedToPass) {
-            assertFalsy(val, messageSuffix);
-        } else {
-            assertThrowsErrorMessage(messageSuffix, () => {
-                assertFalsy(val, messageSuffix);
-            }, messageSuffix);
+        if (result !== expectedResult) {
+            let msg = `Got ${ toFriendlyString(result) }`;
+            msg += ` when expecting ${ toFriendlyString(expectedResult) } `;
+            throw new AssertionError(msg + messageSuffix);
         }
     });
 
     // eslint-disable-next-line no-console,no-undef
-    console.log('Test assertFalsy() passed.');
+    console.log('Test isValidDate() passed.');
 }
