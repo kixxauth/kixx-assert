@@ -1,4 +1,6 @@
 import {
+    AssertionError,
+    toFriendlyString,
     assertThrowsErrorMessage,
     assertEqual
 } from '../mod.js';
@@ -78,6 +80,19 @@ export default function test_assertEqual() {
     /* eslint-enable brace-style, array-bracket-spacing, max-statements-per-line */
 
     tests.forEach(([ a, b, messageSuffix, expectedToPass ]) => {
+        if (typeof messageSuffix !== 'string') {
+            throw new AssertionError(
+                `Expected messageSuffix ${ toFriendlyString(messageSuffix) } to be a String`
+            );
+        }
+        if (typeof expectedToPass !== 'boolean') {
+            throw new AssertionError(
+                `Expected expectedToPass ${ toFriendlyString(expectedToPass) } to be a Boolean`
+            );
+        }
+
+        messageSuffix = 'with ' + messageSuffix;
+
         if (expectedToPass) {
             assertEqual(a, b, messageSuffix);
         } else {
