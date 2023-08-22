@@ -60,7 +60,8 @@ export function isNonEmptyString(x) {
 export function isNumber(x) {
     // This expression will not catch numbers created with new Number(1):
     // return typeof x === 'number';
-    return protoToString.call(x) === '[object Number]';
+    const tag = protoToString.call(x);
+    return tag === '[object Number]' || tag === '[object BigInt]';
 }
 
 export function isNumberNotNaN(x) {

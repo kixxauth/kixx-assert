@@ -8,6 +8,8 @@ import test_assertThrowsErrorMessage from './assert-throws-error-message-test.js
 import test_doesMatch from './does-match-test.js';
 import test_isEqual from './is-equal-test.js';
 import test_isNonEmptyString from './is-non-empty-string-test.js';
+import test_isNumber from './is-number-test.js';
+import test_isNumberNotNaN from './is-number-not-nan-test.js';
 import test_isString from './is-string-test.js';
 
 
@@ -21,4 +23,6 @@ test_assertThrowsErrorMessage();
 test_doesMatch();
 test_isEqual();
 test_isNonEmptyString();
+test_isNumber();
+test_isNumberNotNaN();
 test_isString();

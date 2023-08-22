@@ -27,6 +27,9 @@ export default function test_isString() {
         false, // [ BigInt(-1), 'BigInt(-1)' ],
         false, // [ BigInt(0), 'BigInt(0)' ],
         false, // [ BigInt(1), 'BigInt(1)' ],
+        true, // [ '1', '"1"' ],
+        true, // [ '0.1', '"0.1"' ],
+        true, // [ '7n', '"7n"' ],
         true, // [ '', 'empty String' ],
         true, // [ 'foo', '"foo"' ],
         true, // [ String(''), 'String("")' ],
@@ -85,5 +88,5 @@ export default function test_isString() {
     });
 
     // eslint-disable-next-line no-console,no-undef
-    console.log('Test isEqual() passed.');
+    console.log('Test isString() passed.');
 }
