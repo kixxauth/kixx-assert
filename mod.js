@@ -54,7 +54,7 @@ export function isString(x) {
 }
 
 export function isNonEmptyString(x) {
-    return x && isString(x);
+    return Boolean(x && isString(x));
 }
 
 export function isNumber(x) {
