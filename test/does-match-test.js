@@ -1,9 +1,8 @@
 import {
     AssertionError,
     toFriendlyString,
-    isEqual
+    doesMatch
 } from '../mod.js';
-
 
 const refA = {};
 
@@ -23,6 +22,8 @@ const symbolB = Symbol('B');
 const bigIntA = BigInt(1);
 const bigIntB = BigInt(2);
 
+const arrayA = [ 1, 2, 3 ];
+
 /* eslint-disable brace-style, array-bracket-spacing, max-statements-per-line */
 export const tests = [
     [ 1, 1, 'numbers 1, 1', true ],
@@ -31,7 +32,7 @@ export const tests = [
     [ 0, 0, 'numbers 0, 0', true ],
     [ (1/3), (1/3), 'numbers (1/3), (1/3)', true ],
     [ 0, -0, 'numbers 0, -0', false ],
-    [ 1, '1', 'numbers 1, "1"', false ],
+    [ 1, '1', 'numbers 1, "1"', true ],
     [ NaN, -0, 'numbers NaN, -0', false ],
     [ 0, NaN, 'numbers 0, NaN', false ],
     [ 'foo', NaN, 'numbers "foo", NaN', false ],
@@ -43,7 +44,7 @@ export const tests = [
     [ BigInt(0), BigInt(-0), 'BigInt(0), BigInt(-0)', true ],
     [ 'foo', 'foo', 'strings "foo", "foo"', true ],
     [ '', '', 'strings "", ""', true ],
-    [ '', ' ', 'strings "", " "', false ],
+    [ '', ' ', 'strings "", " "', true ],
     [ 'foo', String('foo'), 'strings "foo", String("foo")', true ],
     [ '1', 1, 'strings "1", 1', false ],
     [ '1', BigInt(1), 'strings "1", BigInt(1)', false ],
@@ -74,13 +75,35 @@ export const tests = [
     [ fnA, fnB, 'references fnA, fnB', false],
     [ fnA, fnA, 'references fnA, fnA', true],
     [ function () { return null; }, function () { return null; }, 'references function () { return null; }', false],
+    [ 'oba', 'foobar', '"oba", "foobar"', true ],
+    [ 'foobar', 'foobar', '"foobar", "foobar"', true ],
+    [ 'foobar', 'oba', '"foobar", "oba"', false ],
+    [ '', 'foobar', '"", "foobar"', true ],
+    [ '', null, '"", null', false ],
+    [ null, 'null', 'null, "null"', true ],
+    [ 'null', null, '"null", null', false ],
+    [ '', 1, '"", 1', false ],
+    [ 1, '', '1, ""', false ],
+    [ '', {}, '"", {}', false ],
+    [ 'x', 'foobar', '"x", "foobar"', false ],
+    [ '[object Object]', {}, '"[object Object]", {}', false ],
+    [ {}, '[object Object]', '{}, "[object Object]"', true ],
+    // eslint-disable-next-line no-useless-escape
+    [ /\[object object\]/i, {}, '/\[object object\]/i, {}', true ],
+    [ 1, [ 1, 2 ], '1, Array [ 1, 2 ]', true ],
+    [ 0, [ 1, 2 ], '0, Array [ 1, 2 ]', false ],
+    [ arrayA, arrayA, 'arrayA, arrayA', true ],
+    [ /^FOO/i, 'foo', '/^FOO/i, "foo"', true ],
+    [ /^FOO/i, 'oof', '/^FOO/i, "oof"', false ],
+    [ /^FOO/i, /^FOO/i, '/^FOO/i, /^FOO/i', false ],
+    [ 'foo', /^FOO/i, '"foo", /^FOO/i', false ],
 ];
-
-
 /* eslint-enable brace-style, array-bracket-spacing, max-statements-per-line */
-export default function test_isEqual() {
 
-    tests.forEach(([ a, b, messageSuffix, expectedResult ]) => {
+
+export default function test_doesMatch() {
+
+    tests.forEach(([ matcher, val, messageSuffix, expectedResult ]) => {
         if (typeof messageSuffix !== 'string') {
             throw new AssertionError(
                 `Expected messageSuffix ${ toFriendlyString(messageSuffix) } to be a String`
@@ -94,7 +117,7 @@ export default function test_isEqual() {
 
         messageSuffix = 'with ' + messageSuffix;
 
-        const result = isEqual(a, b);
+        const result = doesMatch(matcher, val);
 
         if (result !== expectedResult) {
             let msg = `Got ${ toFriendlyString(result) }`;
@@ -104,5 +127,5 @@ export default function test_isEqual() {
     });
 
     // eslint-disable-next-line no-console,no-undef
-    console.log('Test isEqual() passed.');
+    console.log('Test doesMatch() passed.');
 }
