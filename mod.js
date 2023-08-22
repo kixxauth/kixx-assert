@@ -383,24 +383,24 @@ export const assertNotEqual = curryAssertion2((expected, actual, messageSuffix) 
     return null;
 });
 
-export function assertIsNonEmptyString(x, message) {
+export function assertNonEmptyString(x, message) {
     if (!isNonEmptyString(x)) {
         const messageSuffix = message ? ` ${ message }` : '.';
         throw new AssertionError(
             `Expected ${ toFriendlyString(x) } to be a non empty String${ messageSuffix }`,
             null,
-            assertIsNumberNotNaN
+            assertNonEmptyString
         );
     }
 }
 
-export function assertIsNumberNotNaN(x, message) {
+export function assertNumberNotNaN(x, message) {
     if (!isNumberNotNaN(x)) {
         const messageSuffix = message ? ` ${ message }` : '.';
         throw new AssertionError(
             `Expected ${ toFriendlyString(x) } to be a non NaN Number${ messageSuffix }`,
             null,
-            assertIsNumberNotNaN
+            assertNumberNotNaN
         );
     }
 }
