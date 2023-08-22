@@ -332,6 +332,17 @@ export function assert(x, message) {
     }
 }
 
+export function assertFalsy(x, message) {
+    if (x) {
+        const messageSuffix = message ? ` ${ message }` : '.';
+        throw new AssertionError(
+            `Expected ${ toFriendlyString(x) } to be falsy${ messageSuffix }`,
+            null,
+            assert
+        );
+    }
+}
+
 export const assertEqual = curryAssertion2((expected, actual, messageSuffix) => {
     if (!isEqual(expected, actual)) {
         let msg = `Expected ${ toFriendlyString(actual) }`;
