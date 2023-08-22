@@ -4,6 +4,7 @@ import test_assertFalsy from './assert-falsy-test.js';
 import test_assertEqual from './assert-equal-test.js';
 import test_assertNotEqual from './assert-not-equal-test.js';
 import test_assertMatches from './assert-matches-test.js';
+import test_assertNotMatches from './assert-not-matches-test.js';
 
 
 test_assertThrowsErrorMessage();
@@ -12,3 +13,4 @@ test_assertFalsy();
 test_assertEqual();
 test_assertNotEqual();
 test_assertMatches();
+test_assertNotMatches();
