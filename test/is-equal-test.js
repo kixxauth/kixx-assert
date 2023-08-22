@@ -103,6 +103,20 @@ export default function test_isEqual() {
         }
     });
 
+    tests.forEach(([ a, b, messageSuffix, expectedResult ]) => {
+        messageSuffix = 'with ' + messageSuffix;
+
+        const isEqualToA = isEqual(a);
+
+        const result = isEqualToA(b);
+
+        if (result !== expectedResult) {
+            let msg = `Got ${ toFriendlyString(result) }`;
+            msg += ` when expecting ${ toFriendlyString(expectedResult) } `;
+            throw new AssertionError(msg + messageSuffix);
+        }
+    });
+
     // eslint-disable-next-line no-console,no-undef
     console.log('Test isEqual() passed.');
 }

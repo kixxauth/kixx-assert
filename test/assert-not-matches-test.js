@@ -33,6 +33,20 @@ export default function test_assertNotMatches() {
         }
     });
 
+    tests.forEach(([ matcher, val, messageSuffix, expectedToFail ]) => {
+        messageSuffix = 'with (curried) ' + messageSuffix;
+
+        const assertNotMatchesMatcher = assertNotMatches(matcher);
+
+        if (expectedToFail) {
+            assertThrowsErrorMessage(messageSuffix, () => {
+                assertNotMatchesMatcher(val, messageSuffix);
+            }, messageSuffix);
+        } else {
+            assertNotMatchesMatcher(val, messageSuffix);
+        }
+    });
+
     // eslint-disable-next-line no-console,no-undef
     console.log('Test assertNotMatches() passed.');
 }

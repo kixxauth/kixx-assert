@@ -126,6 +126,20 @@ export default function test_doesMatch() {
         }
     });
 
+    tests.forEach(([ matcher, val, messageSuffix, expectedResult ]) => {
+        messageSuffix = 'with ' + messageSuffix;
+
+        const doesMatchMatcher = doesMatch(matcher);
+
+        const result = doesMatchMatcher(val);
+
+        if (result !== expectedResult) {
+            let msg = `Got ${ toFriendlyString(result) }`;
+            msg += ` when expecting ${ toFriendlyString(expectedResult) } `;
+            throw new AssertionError(msg + messageSuffix);
+        }
+    });
+
     // eslint-disable-next-line no-console,no-undef
     console.log('Test doesMatch() passed.');
 }

@@ -33,6 +33,20 @@ export default function test_assertMatches() {
         }
     });
 
+    tests.forEach(([ matcher, val, messageSuffix, expectedToPass ]) => {
+        messageSuffix = 'with (curried) ' + messageSuffix;
+
+        const assertMatchesMatcher = assertMatches(matcher);
+
+        if (expectedToPass) {
+            assertMatchesMatcher(val, messageSuffix);
+        } else {
+            assertThrowsErrorMessage(messageSuffix, () => {
+                assertMatchesMatcher(val, messageSuffix);
+            }, messageSuffix);
+        }
+    });
+
     // eslint-disable-next-line no-console,no-undef
     console.log('Test assertMatches() passed.');
 }

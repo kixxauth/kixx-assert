@@ -33,6 +33,21 @@ export default function test_assertEqual() {
         }
     });
 
+    tests.forEach(([ a, b, messageSuffix, expectedToPass ]) => {
+
+        messageSuffix = 'with (curried) ' + messageSuffix;
+
+        const assertEqualToA = assertEqual(a);
+
+        if (expectedToPass) {
+            assertEqualToA(b, messageSuffix);
+        } else {
+            assertThrowsErrorMessage(messageSuffix, () => {
+                assertEqualToA(b, messageSuffix);
+            }, messageSuffix);
+        }
+    });
+
     // eslint-disable-next-line no-console,no-undef
     console.log('Test assertEqual() passed.');
 }
