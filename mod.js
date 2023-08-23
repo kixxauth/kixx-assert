@@ -467,7 +467,7 @@ export const assertIncludes = curryAssertion2((item, list, messageSuffix) => {
     return null;
 });
 
-export const assertDoesNotInclude = curryAssertion2((item, list, messageSuffix) => {
+export const assertExcludes = curryAssertion2((item, list, messageSuffix) => {
     if (includes(item, list)) {
         const msg = `Expected ${ toFriendlyString(list) } NOT to include `;
         return msg + toFriendlyString(item) + messageSuffix;
