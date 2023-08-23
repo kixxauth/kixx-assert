@@ -145,6 +145,9 @@ export function hasOwn(key, obj) {
             return hasOwn(key, _obj);
         };
     }
+    if (key && !Object.getPrototypeOf(key)) {
+        key = 'null';
+    }
     if (useNativeHasOwn) {
         return obj && Object.hasOwn(obj, key);
     }
@@ -158,10 +161,12 @@ export function has(key, obj) {
         };
     }
 
-    if (isMap(obj) || isSet(obj)) {
-        return obj.has(key);
+    if (isPrimitive(obj)) {
+        return false;
     }
-
+    if (key && !Object.getPrototypeOf(key)) {
+        key = 'null';
+    }
     return obj && key in obj;
 }
 
