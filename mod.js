@@ -188,10 +188,8 @@ export function isEmpty(x) {
         case '[object Boolean]':
         case '[object Number]':
         case '[object BigInt]':
+            return !x;
         case '[object Symbol]':
-            if (Number.isNaN(x)) {
-                return true;
-            }
             return false;
         default:
             if (isPlainObject(x)) {

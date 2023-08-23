@@ -11,6 +11,7 @@ import test_hasOwn from './has-own-test.js';
 import test_isBigInt from './is-bigint-test.js';
 import test_isBoolean from './is-boolean-test.js';
 import test_isDate from './is-date-test.js';
+import test_isEmpty from './is-empty-test.js';
 import test_isEqual from './is-equal-test.js';
 import test_isFunction from './is-function-test.js';
 import test_isMap from './is-map-test.js';
@@ -25,6 +26,7 @@ import test_isString from './is-string-test.js';
 import test_isSymbol from './is-symbol-test.js';
 import test_isUndefined from './is-undefined-test.js';
 import test_isValidDate from './is-valid-date-test.js';
+import test_ownKeys from './own-keys-test.js';
 
 
 test_assert();
@@ -40,6 +42,7 @@ test_hasOwn();
 test_isBigInt();
 test_isBoolean();
 test_isDate();
+test_isEmpty();
 test_isEqual();
 test_isFunction();
 test_isMap();
@@ -54,3 +57,4 @@ test_isString();
 test_isSymbol();
 test_isUndefined();
 test_isValidDate();
+test_ownKeys();

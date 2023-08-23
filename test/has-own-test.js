@@ -26,6 +26,10 @@ export default function test_hasOwn() {
             });
         }
 
+        get bar() {
+            return 4;
+        }
+
         start() {
             return null;
         }
@@ -73,6 +77,7 @@ export default function test_hasOwn() {
     const hasConstructor = hasOwn('constructor');
     const hasObvious = hasOwn('obvious');
     const hasNeedToKnow = hasOwn('needToKnow');
+    const hasBar = hasOwn('bar');
     const hasStart = hasOwn('start');
     const hasFoo = hasOwn('foo');
     const hasCreate = hasOwn('create');
@@ -85,6 +90,8 @@ export default function test_hasOwn() {
     assertTrue(hasOwn('obvious', widget));
     assertTrue(hasNeedToKnow(widget));
     assertTrue(hasOwn('needToKnow', widget));
+    assertFalse(hasBar(widget));
+    assertFalse(hasOwn('bar', widget));
     assertFalse(hasStart(widget));
     assertFalse(hasOwn('start', widget));
     assertFalse(hasFoo(widget));

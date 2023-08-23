@@ -26,6 +26,10 @@ export default function test_has() {
             });
         }
 
+        get bar() {
+            return 4;
+        }
+
         start() {
             return null;
         }
@@ -73,6 +77,7 @@ export default function test_has() {
     const hasConstructor = has('constructor');
     const hasObvious = has('obvious');
     const hasNeedToKnow = has('needToKnow');
+    const hasBar = has('bar');
     const hasStart = has('start');
     const hasFoo = has('foo');
     const hasCreate = has('create');
@@ -85,6 +90,8 @@ export default function test_has() {
     assertTrue(has('obvious', widget));
     assertTrue(hasNeedToKnow(widget));
     assertTrue(has('needToKnow', widget));
+    assertTrue(hasBar(widget));
+    assertTrue(has('bar', widget));
     assertTrue(hasStart(widget));
     assertTrue(has('start', widget));
     assertFalse(hasFoo(widget));
