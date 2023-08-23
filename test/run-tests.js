@@ -1,7 +1,9 @@
 import test_assert from './assert-test.js';
+import test_assertEmpty from './assert-empty-test.js';
 import test_assertEqual from './assert-equal-test.js';
 import test_assertFalsy from './assert-falsy-test.js';
 import test_assertMatches from './assert-matches-test.js';
+import test_assertNotEmpty from './assert-not-empty-test.js';
 import test_assertNotEqual from './assert-not-equal-test.js';
 import test_assertNotMatches from './assert-not-matches-test.js';
 import test_assertThrowsErrorMessage from './assert-throws-error-message-test.js';
@@ -32,9 +34,11 @@ import test_toFriendlyString from './to-friendly-string-test.js';
 
 
 test_assert();
+test_assertEmpty();
 test_assertEqual();
 test_assertFalsy();
 test_assertMatches();
+test_assertNotEmpty();
 test_assertNotEqual();
 test_assertNotMatches();
 test_assertThrowsErrorMessage();

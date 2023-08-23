@@ -415,46 +415,46 @@ export const assertNotMatches = curryAssertion2((matcher, actual, messageSuffix)
     return null;
 });
 
-export function assertIsEmpty(x, message) {
-    if (isEmpty(x)) {
+export function assertEmpty(x, message) {
+    if (!isEmpty(x)) {
         const messageSuffix = message ? ` ${ message }` : '.';
         throw new AssertionError(
             `Expected ${ toFriendlyString(x) } to be empty, null, or NaN${ messageSuffix }`,
             null,
-            assertIsDefined
+            assertEmpty
         );
     }
 }
 
-export function assertIsNotEmpty(x, message) {
-    if (!isEmpty(x)) {
+export function assertNotEmpty(x, message) {
+    if (isEmpty(x)) {
         const messageSuffix = message ? ` ${ message }` : '.';
         throw new AssertionError(
             `Expected ${ toFriendlyString(x) } NOT to be empty, null, or NaN${ messageSuffix }`,
             null,
-            assertIsDefined
+            assertNotEmpty
         );
     }
 }
 
-export function assertIsDefined(x, message) {
+export function assertDefined(x, message) {
     if (isUndefined(x)) {
         const messageSuffix = message ? ` ${ message }` : '.';
         throw new AssertionError(
             `Expected ${ toFriendlyString(x) } to be defined${ messageSuffix }`,
             null,
-            assertIsDefined
+            assertDefined
         );
     }
 }
 
-export function assertIsNotDefined(x, message) {
+export function assertNotDefined(x, message) {
     if (!isUndefined(x)) {
         const messageSuffix = message ? ` ${ message }` : '.';
         throw new AssertionError(
             `Expected ${ toFriendlyString(x) } to be undefined${ messageSuffix }`,
             null,
-            assertIsNotDefined
+            assertNotDefined
         );
     }
 }
