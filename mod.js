@@ -206,8 +206,7 @@ export function isEqual(a, b) {
         };
     }
     if (a === b) {
-        // Make sure 0 !== -0.
-        return a !== 0 || 1 / a === 1 / b;
+        return true;
     }
     if (isValidDate(a) && isValidDate(b)) {
         return a <= b && a >= b;
