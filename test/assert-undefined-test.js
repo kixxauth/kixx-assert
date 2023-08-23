@@ -2,18 +2,18 @@ import {
     AssertionError,
     assertEqual,
     assertThrowsErrorClass,
-    assertNotDefined
+    assertUndefined
 } from '../mod.js';
 
-export default function test_assertNotDefined() {
+export default function test_assertUndefined() {
     const assertThrowsAssertionError = assertThrowsErrorClass(AssertionError);
 
     assertThrowsAssertionError(() => {
-        assertNotDefined(1, 'of 1');
+        assertUndefined(1, 'of 1');
     });
 
     try {
-        assertNotDefined(1, 'of 1');
+        assertUndefined(1, 'of 1');
     } catch (err) {
         assertEqual(
             'Expected Number(1) to be undefined of 1',
@@ -22,9 +22,9 @@ export default function test_assertNotDefined() {
     }
 
     // eslint-disable-next-line no-undefined
-    assertNotDefined(undefined);
+    assertUndefined(undefined);
 
     // eslint-disable-next-line no-console,no-undef
-    console.log('Test assertNotDefined() passed.');
+    console.log('Test assertUndefined() passed.');
 }
 

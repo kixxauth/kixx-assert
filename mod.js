@@ -448,13 +448,13 @@ export function assertDefined(x, message) {
     }
 }
 
-export function assertNotDefined(x, message) {
+export function assertUndefined(x, message) {
     if (!isUndefined(x)) {
         const messageSuffix = message ? ` ${ message }` : '.';
         throw new AssertionError(
             `Expected ${ toFriendlyString(x) } to be undefined${ messageSuffix }`,
             null,
-            assertNotDefined
+            assertUndefined
         );
     }
 }
