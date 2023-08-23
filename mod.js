@@ -243,17 +243,22 @@ export function includes(item, list) {
         return list.includes(item);
     }
 
-    if (isMap(list) || isSet(list)) {
+    const tag = protoToString.call(list);
+
+    if (tag === '[object Map]') {
         for (const val of list.values()) {
             if (isEqual(val, item)) {
                 return true;
             }
         }
-    } else {
-        for (const key of ownKeys(list)) {
-            if (isEqual(list[key], item)) {
-                return true;
-            }
+    }
+    if (tag === '[object WeakMap]' || tag === '[object Set]' || tag === '[object WeakSet]') {
+        return list.has(item);
+    }
+
+    for (const key of ownKeys(list)) {
+        if (isEqual(list[key], item)) {
+            return true;
         }
     }
 

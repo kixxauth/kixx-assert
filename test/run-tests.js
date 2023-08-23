@@ -8,6 +8,7 @@ import test_assertThrowsErrorMessage from './assert-throws-error-message-test.js
 import test_doesMatch from './does-match-test.js';
 import test_has from './has-test.js';
 import test_hasOwn from './has-own-test.js';
+import test_includes from './includes-test.js';
 import test_isBigInt from './is-bigint-test.js';
 import test_isBoolean from './is-boolean-test.js';
 import test_isDate from './is-date-test.js';
@@ -27,6 +28,7 @@ import test_isSymbol from './is-symbol-test.js';
 import test_isUndefined from './is-undefined-test.js';
 import test_isValidDate from './is-valid-date-test.js';
 import test_ownKeys from './own-keys-test.js';
+import test_toFriendlyString from './to-friendly-string-test.js';
 
 
 test_assert();
@@ -39,6 +41,7 @@ test_assertThrowsErrorMessage();
 test_doesMatch();
 test_has();
 test_hasOwn();
+test_includes();
 test_isBigInt();
 test_isBoolean();
 test_isDate();
@@ -58,3 +61,4 @@ test_isSymbol();
 test_isUndefined();
 test_isValidDate();
 test_ownKeys();
+test_toFriendlyString();
