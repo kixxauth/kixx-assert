@@ -5,6 +5,7 @@ import {
     assertExcludes
 } from '../mod.js';
 
+
 export default function test_assertExcludes() {
     const assertThrowsAssertionError = assertThrowsErrorClass(AssertionError);
     const assertExcludes1 = assertExcludes(1);

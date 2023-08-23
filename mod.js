@@ -475,22 +475,6 @@ export const assertExcludes = curryAssertion2((item, list, messageSuffix) => {
     return null;
 });
 
-export const assertHas = curryAssertion2((propname, obj, messageSuffix) => {
-    if (!has(propname, obj)) {
-        const msg = `Expected ${ toFriendlyString(obj) } to have prop `;
-        return `${ msg }"${ propname }"${ messageSuffix }`;
-    }
-    return null;
-});
-
-export const assertDoesNotHave = curryAssertion2((propname, obj, messageSuffix) => {
-    if (has(propname, obj)) {
-        const msg = `Expected ${ toFriendlyString(obj) } NOT to have prop `;
-        return `${ msg }"${ propname }"${ messageSuffix }`;
-    }
-    return null;
-});
-
 export const assertGreaterThan = curryAssertion2((control, subject, messageSuffix) => {
     if (subject <= control) {
         const msg = `Expected ${ toFriendlyString(subject) } to be greater than `;
