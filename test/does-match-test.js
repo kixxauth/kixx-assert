@@ -13,7 +13,7 @@ function fnB() {
     return null;
 }
 
-const dateA = new Date();
+const dateA = new Date('1999');
 const invalidDate = new Date('invalid');
 
 const symbolA = Symbol('A');
@@ -67,7 +67,7 @@ export const tests = [
     [ null, Object.create(null), 'null, Object.create(null)', false ],
     [ dateA, dateA, 'date dateA, dateA', true ],
     [ dateA, new Date(), 'date dateA, new Date()', false ],
-    [ new Date(2019, 0, 3, 4, 20, 1, 10), new Date(2019, 0, 3, 4, 20, 1, 10), 'date new Date(), new Date()', false ],
+    [ new Date(2019, 0, 3, 4, 20, 1, 10), new Date(2019, 0, 3, 4, 20, 1, 10), 'date new Date(), new Date()', true ],
     [ new Date(), new Date('invalid'), 'date new Date(), new Date("invalid")', false ],
     [ invalidDate, new Date('invalid'), 'date invalidDate, new Date("invalid")', false ],
     [ refA, {}, 'references refA, {}', false],

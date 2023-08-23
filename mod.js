@@ -209,6 +209,9 @@ export function isEqual(a, b) {
         // Make sure 0 !== -0.
         return a !== 0 || 1 / a === 1 / b;
     }
+    if (isValidDate(a) && isValidDate(b)) {
+        return a <= b && a >= b;
+    }
     // Make sure NaN === NaN.
     return a !== a && b !== b;
 }
