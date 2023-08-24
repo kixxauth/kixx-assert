@@ -452,6 +452,8 @@ Throw an AssertionError if the passed values are *not strictly* equal. Dates and
 
 See [isEqual](#isequal).
 
+Can be curried.
+
 ```js
 assertEqual(1, 2) // Throws AssertionError
 assertEqual(1, '1') // Throws AssertionError
@@ -465,53 +467,62 @@ assertEqual(NaN, NaN) // passes
 assertEqual(new Date('1999'), new Date('1999')) // passes
 ```
 
-export const assertNotEqual = curryAssertion2((expected, actual, messageSuffix) => {
-    if (isEqual(expected, actual)) {
-        let msg = `Expected ${ toFriendlyString(actual) }`;
-        msg += ` to NOT equal (!==) ${ toFriendlyString(expected) }`;
-        return msg + messageSuffix;
-    }
-    return null;
-});
+You can curry it!
 
-export const assertMatches = curryAssertion2((matcher, actual, messageSuffix) => {
-    if (!doesMatch(matcher, actual)) {
-        const msg = `Expected ${ toFriendlyString(actual) } to match `;
-        return msg + toFriendlyString(matcher) + messageSuffix;
-    }
-    return null;
-});
+```js
+const assertIs1 = assertEqual(1);
 
-export const assertNotMatches = curryAssertion2((matcher, actual, messageSuffix) => {
-    if (doesMatch(matcher, actual)) {
-        const msg = `Expected ${ toFriendlyString(actual) } NOT to match `;
-        return msg + toFriendlyString(matcher) + messageSuffix;
-    }
-    return null;
-});
+assertIs1(1) // passes
+```
 
-export function assertEmpty(x, message) {
-    if (!isEmpty(x)) {
-        const messageSuffix = message ? ` ${ message }` : '.';
-        throw new AssertionError(
-            `Expected ${ toFriendlyString(x) } to be empty, null, or NaN${ messageSuffix }`,
-            null,
-            assertEmpty
-        );
-    }
-}
+### assertNotEqual
+The inverse of [assertEqual()](#assertequal)
 
-export function assertNotEmpty(x, message) {
-    if (isEmpty(x)) {
-        const messageSuffix = message ? ` ${ message }` : '.';
-        throw new AssertionError(
-            `Expected ${ toFriendlyString(x) } NOT to be empty, null, or NaN${ messageSuffix }`,
-            null,
-            assertNotEmpty
-        );
-    }
-}
+### assertMatches
+See [doesMatch()](#doesmatch)
 
+Can be curried.
+
+```js
+assertMatches(/^foo/i, 'BAR') // Throws AssertionErrors
+assertMatches(/^foo/i, 'FOOBAR') // passes
+assertMatches('oba', 'foobar') // passes
+assertMatches('fox', 'The quick brown fox jumped over the...') // passes
+```
+
+You can curry it!
+
+```js
+const assertShortDateString = assertMatches(/^[\d]{4}-[\d]{2}-[\d]{2}$/);
+
+assertShortDateString('14 September 2020') // false
+assertShortDateString('2020-09-14') // true
+```
+
+### assertNotMatches
+The inverse of [assertMatches()](#assertmatches)
+
+### assertEmpty
+See [isEmpty()](#isempty)
+
+```js
+assertEmpty([1]) // Throws AssertionError
+assertEmpty([]) // passes
+assertEmpty({ foo: 'bar' }) // Throws AssertionError
+assertEmpty({}) // passes
+assertEmpty(new Map()) // passes
+assertEmpty('hello world') // passes
+assertEmpty('') // passes
+assertEmpty(null) // passes
+assertEmpty(undefined) // passes
+assertEmpty(false) // passes
+assertEmpty(0) // passes
+```
+
+### assertNotEmpty
+The inverse of [assertEmpty()](#assertempty)
+
+### assertDefined
 export function assertDefined(x, message) {
     if (isUndefined(x)) {
         const messageSuffix = message ? ` ${ message }` : '.';
