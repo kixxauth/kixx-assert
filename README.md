@@ -2,24 +2,25 @@ Kixx Assert
 ===========
 A JavaScript library for creating robust ES6 code.
 
-Contains test functions like `isNumberNotNaN()` which return Booleans, and assertion functions like `assertEquals()` which throw an AssertionError if the conditions fail.
+Contains test functions like `isNumberNotNaN()` which return Booleans, and assertion functions like `assertEquals()` which throw an AssertionError if the condition(s) fail.
 
 Created by [Kris Walker](https://www.kriswalker.me) 2017 - 2023.
 
 ## Environment Support
 
+| Env     | Version    |
 |---------|------------|
 | ECMA    | >= ES2020  |
 | Node.js | >= 14.17.0 |
 | Deno    | >= 1.0.0   |
 
-This library is designed for use in an ES6 module environment requiring Node.js >= 14.17.0 and Deno >= 1.0.0. You could use it in a browser, but there are no plans to offer CommonJS or AMD modules. It targets at least [ES2020](https://node.green/#ES2020) and uses the optional chaining operator "?.".
+This library is designed for use in an ES6 module environment requiring __Node.js >= 14.17.0__ and __Deno >= 1.0.0__. You could use it in a browser, but there are no plans to offer CommonJS or AMD modules. It targets at least [ES2020](https://node.green/#ES2020) and uses the optional chaining operator `?.`.
 
-Node.js >= 14.17.0 for [ES6 module stabilization](https://nodejs.org/dist/latest-v18.x/docs/api/esm.html#modules-ecmascript-modules) and [ES2020 support](https://node.green/#ES2020).
+If you're curious: Node.js >= 14.17.0 is required for [ES6 module stabilization](https://nodejs.org/dist/latest-v18.x/docs/api/esm.html#modules-ecmascript-modules) and [ES2020 support](https://node.green/#ES2020).
 
-Please don't bother running benchmarks on this library. Correctness and readability are design objectives. Conserving CPU cycles is not.
+Please don't bother running benchmarks on this library. Correctness and readability are design objectives. Conserving CPU cycles is not. It is very unlikely any utilities in this library would have a measureable performance impact on your application, and if they did you should probably be implementing something more optimized to your specific use case.
 
-There is no TypeScript here. It would be confusing and waste of time for a library like this.
+__Note:__ There is no TypeScript here. It would be confusing and waste of time for a library like this.
 
 ## Usage
 ```js
@@ -41,6 +42,8 @@ const assertFalse = assertEqual(false);
 assertTrue(isString('hello world'));
 assertFalse(isString({}));
 ```
+
+## Library
 
 ### isString
 ```js
