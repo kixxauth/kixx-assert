@@ -25,7 +25,9 @@ if (isNonEmptyString(myOtherParameter)) {
 
 Created by [Kris Walker](https://www.kriswalker.me) 2017 - 2023.
 
-This library is designed for use in Node.js >= 14.5.0 or any version of Deno.js. You could use it in a browser, but there are no plans to offer CommonJS or AMD modules. It targets [ES2020](https://node.green/#ES2020) and earlier. We use the optional chaining operator "?.".
+This library is designed for use in Node.js >= 14.17.0 or any version of Deno.js. You could use it in a browser, but there are no plans to offer CommonJS or AMD modules. It targets [ES2020](https://node.green/#ES2020) and earlier. We use the optional chaining operator "?.".
+
+We require Node.js >= 14.17.0 for [ES6 module stabilization](https://nodejs.org/dist/latest-v18.x/docs/api/esm.html#modules-ecmascript-modules).
 
 Please don't bother running benchmarks on this library. Correctness and readability are design objectives. Conserving CPU cycles is not.
 
