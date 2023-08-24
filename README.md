@@ -367,158 +367,53 @@ A wiz at matching strings and RegExp, but can match just about anything.
 Can be curried.
 
 ```js
+doesMatch(/^foo/i, 'BAR') // false
+doesMatch(/^foo/i, 'FOOBAR') // true
+doesMatch('oba', 'foobar') // true
+doesMatch('fox', 'The quick brown fox jumped over the...') // true
 ```
 
 You can curry it!
 
 ```js
+const isShortDateString = doesMatch(/^[\d]{4}-[\d]{2}-[\d]{2}$/);
+
+isShortDateString('14 September 2020') // false
+isShortDateString('2020-09-14') // true
 ```
 
-export function doesMatch(matcher, x) {
-    if (arguments.length < 2) {
-        return function curriedDoesMatch(_x) {
-            return doesMatch(matcher, _x);
-        };
-    }
-    if (isEqual(matcher, x)) {
-        return true;
-    }
-    if (typeof matcher?.test === 'function') {
-        return matcher.test(x);
-    }
-    if (typeof x?.includes === 'function') {
-        return x.includes(matcher);
-    }
+### includes
+Can be curried.
 
-    return false;
-}
+```js
+includes(1, [ 0, 5, 9]) // false
+includes('x', 'foobar') // false
+includes(9, [ 0, 5, 9]) // true
+includes('oba', 'foobar') // true
 
-export function includes(item, list) {
-    if (arguments.length < 2) {
-        return function curriedIncludes(_list) {
-            return includes(item, _list);
-        };
-    }
+// Objects look at values, not keys. To check the key use has() or hasOwn().
+includes('hello', { hello: 'world' }) // false
+includes('world', { hello: 'world' }) // true
 
-    if (Array.isArray(list) || isString(list)) {
-        return list.includes(item);
-    }
+// Check the values of a Map or Set
+includes(8, new Map([[ 'eight', 8 ]])) // true
+includes('hello', new Set([ 'hello' ])) // true
+includes('hello', new WeakSet([ 'hello' ])) // true
 
-    const tag = protoToString.call(list);
+// Because of the way WeakMaps work, include() is only able
+// to look at the keys. You probably should *not* use it this way.
+includes(8, new WeakMap([[ 'eight', 8 ]])) // false
+includes('eight', new WeakMap([[ 'eight', 8 ]])) // false
+```
 
-    if (tag === '[object Map]') {
-        for (const val of list.values()) {
-            if (isEqual(val, item)) {
-                return true;
-            }
-        }
-    }
-    if (tag === '[object WeakMap]' || tag === '[object Set]' || tag === '[object WeakSet]') {
-        return list.has(item);
-    }
+You can curry it!
 
-    for (const key of ownKeys(list)) {
-        if (isEqual(list[key], item)) {
-            return true;
-        }
-    }
+```js
+includesEmptyString = includes('');
 
-    return false;
-}
-
-export function toFriendlyString(x) {
-    if (isString(x)) {
-        return 'String("'+ x +'")';
-    }
-    if (isBigInt(x)) {
-        return 'BigInt('+ x +')';
-    }
-    // WARNING
-    // Checking isNumber() will return true for BigInt instances as well as
-    // Numbers, so the isBigInt() check needs to come before isNumber().
-    if (isNumber(x)) {
-        return 'Number('+ x +')';
-    }
-    if (isBoolean(x)) {
-        return 'Boolean('+ x +')';
-    }
-    if (isSymbol(x)) {
-        return x.toString();
-    }
-    if (isUndefined(x)) {
-        return 'undefined';
-    }
-    if (isFunction(x)) {
-        // This will get "Function" or "AsyncFunction":
-        const prefix = protoToString.call(x).slice(8, -1);
-        if (x.name) {
-            return prefix + '('+ x.name +'() {})';
-        }
-        return prefix + '(function () {})';
-    }
-    if (x === null) {
-        return 'null';
-    }
-    if (Object.getPrototypeOf(x) === null) {
-        return 'Object(null)';
-    }
-    if (isPlainObject(x)) {
-        return 'Object({})';
-    }
-    if (Array.isArray(x)) {
-        if (x.length === 0) {
-            return 'Array([])';
-        }
-        return 'Array([0..'+ (x.length - 1) +'])';
-    }
-    if (isValidDate(x)) {
-        return 'Date('+ x.toISOString() +')';
-    }
-    if (isDate(x)) {
-        return 'Date(Invalid)';
-    }
-    if (isRegExp(x)) {
-        return 'RegExp('+ x +')';
-    }
-
-    const name = x.constructor?.name || 'Object';
-
-    return name +'('+ x +')';
-}
-
-export function curryAssertion1(guard) {
-    return function curriedAssertion1(x, message) {
-        message = message ? ` ${ message }` : '.';
-        const msg = guard(x, message);
-        if (msg) {
-            throw new AssertionError(msg, null, curriedAssertion1);
-        }
-
-        return null;
-    };
-}
-
-export function curryAssertion2(guard) {
-    return function curriedAssertion2(expected, actual, message) {
-        if (arguments.length < 2) {
-            return function curriedInnerAssert(_actual, _message) {
-                _message = _message ? ` ${ _message }` : '.';
-                const _msg = guard(expected, _actual, _message);
-                if (_msg) {
-                    throw new AssertionError(_msg, null, curriedInnerAssert);
-                }
-            };
-        }
-
-        message = message ? ` ${ message }` : '.';
-        const msg = guard(expected, actual, message);
-        if (msg) {
-            throw new AssertionError(msg, null, curriedAssertion2);
-        }
-
-        return null;
-    };
-}
+includesEmptyString([ 'foo', 'bar' ]) // false
+includesEmptyString([ 'foo', '', 'bar' ]) // true
+```
 
 export function assert(x, message) {
     if (!x) {
@@ -674,85 +569,99 @@ export function assertThrowsError(fn, message) {
     }
 }
 
-export const assertThrowsErrorMessage = curryAssertion2((messagePart, fn, messageSuffix) => {
-    let didThrow = false;
-    try {
-        fn();
-    } catch (err) {
-        didThrow = true;
+export function toFriendlyString(x) {
+    if (isString(x)) {
+        return 'String("'+ x +'")';
+    }
+    if (isBigInt(x)) {
+        return 'BigInt('+ x +')';
+    }
+    // WARNING
+    // Checking isNumber() will return true for BigInt instances as well as
+    // Numbers, so the isBigInt() check needs to come before isNumber().
+    if (isNumber(x)) {
+        return 'Number('+ x +')';
+    }
+    if (isBoolean(x)) {
+        return 'Boolean('+ x +')';
+    }
+    if (isSymbol(x)) {
+        return x.toString();
+    }
+    if (isUndefined(x)) {
+        return 'undefined';
+    }
+    if (isFunction(x)) {
+        // This will get "Function" or "AsyncFunction":
+        const prefix = protoToString.call(x).slice(8, -1);
+        if (x.name) {
+            return prefix + '('+ x.name +'() {})';
+        }
+        return prefix + '(function () {})';
+    }
+    if (x === null) {
+        return 'null';
+    }
+    if (Object.getPrototypeOf(x) === null) {
+        return 'Object(null)';
+    }
+    if (isPlainObject(x)) {
+        return 'Object({})';
+    }
+    if (Array.isArray(x)) {
+        if (x.length === 0) {
+            return 'Array([])';
+        }
+        return 'Array([0..'+ (x.length - 1) +'])';
+    }
+    if (isValidDate(x)) {
+        return 'Date('+ x.toISOString() +')';
+    }
+    if (isDate(x)) {
+        return 'Date(Invalid)';
+    }
+    if (isRegExp(x)) {
+        return 'RegExp('+ x +')';
+    }
 
-        if (err instanceof Error === false) {
-            let msg = 'Expected function to throw instance of Error';
-            msg += ' but instead threw instance of ';
-            msg += (err?.constructor?.name || '[not an object]');
-            return msg + messageSuffix;
+    const name = x.constructor?.name || 'Object';
+
+    return name +'('+ x +')';
+}
+
+export function curryAssertion1(guard) {
+    return function curriedAssertion1(x, message) {
+        message = message ? ` ${ message }` : '.';
+        const msg = guard(x, message);
+        if (msg) {
+            throw new AssertionError(msg, null, curriedAssertion1);
         }
 
-        if (!isString(err.message) || !err.message.includes(messagePart)) {
-            let msg = 'Expected function to throw error message including part ';
-            msg += `"${ messagePart }" but instead threw error message ${ err.message }`;
-            return msg + messageSuffix;
-        }
-    }
+        return null;
+    };
+}
 
-    if (!didThrow) {
-        return 'Expected function to throw' + messageSuffix;
-    }
-
-    return null;
-});
-
-export const assertThrowsErrorCode = curryAssertion2((errorCode, fn, messageSuffix) => {
-    let didThrow = false;
-    try {
-        fn();
-    } catch (err) {
-        didThrow = true;
-
-        if (err instanceof Error === false) {
-            let msg = 'Expected function to throw instance of Error';
-            msg += ' but instead threw instance of ';
-            msg += (err?.constructor?.name || '[not an object]');
-            return msg + messageSuffix;
+export function curryAssertion2(guard) {
+    return function curriedAssertion2(expected, actual, message) {
+        if (arguments.length < 2) {
+            return function curriedInnerAssert(_actual, _message) {
+                _message = _message ? ` ${ _message }` : '.';
+                const _msg = guard(expected, _actual, _message);
+                if (_msg) {
+                    throw new AssertionError(_msg, null, curriedInnerAssert);
+                }
+            };
         }
 
-        if (err.code !== errorCode) {
-            let msg = 'Expected function to throw error with code ';
-            msg += toFriendlyString(errorCode);
-            msg += ' but instead threw error with code ';
-            msg += toFriendlyString(err.code);
-            return msg + messageSuffix;
+        message = message ? ` ${ message }` : '.';
+        const msg = guard(expected, actual, message);
+        if (msg) {
+            throw new AssertionError(msg, null, curriedAssertion2);
         }
-    }
 
-    if (!didThrow) {
-        return 'Expected function to throw' + messageSuffix;
-    }
-
-    return null;
-});
-
-export const assertThrowsErrorClass = curryAssertion2((errorClass, fn, messageSuffix) => {
-    let didThrow = false;
-    try {
-        fn();
-    } catch (err) {
-        didThrow = true;
-
-        if (err instanceof errorClass === false) {
-            let msg = `Expected function to throw instance of ${ errorClass.name }`;
-            msg += ' but instead threw instance of ';
-            msg += (err?.constructor?.name || '[not an object]');
-            return msg + messageSuffix;
-        }
-    }
-
-    if (!didThrow) {
-        return 'Expected function to throw' + messageSuffix;
-    }
-
-    return null;
-});
+        return null;
+    };
+}
 
 
 Copyright and License
