@@ -1,7 +1,7 @@
 /* globals module */
 module.exports =  {
     env: {
-        es2022: true,
+        es2020: true,
     },
     extends: 'eslint:recommended',
     parserOptions: {

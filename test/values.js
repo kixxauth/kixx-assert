@@ -2,9 +2,8 @@
 export class Cat {}
 
 export class Dog {
-    foo = 1;
-
     constructor() {
+        this.foo = 1;
         this.notta = null;
 
         Object.defineProperty(this, 'hidden', {

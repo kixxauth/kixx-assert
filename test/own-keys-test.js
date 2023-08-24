@@ -12,9 +12,9 @@ export default function test_ownKeys() {
 
     class Widget {
 
-        prop = 1;
-
         constructor() {
+            this.prop = 1;
+
             Object.defineProperties(this, {
                 obvious: {
                     enumerable: true,

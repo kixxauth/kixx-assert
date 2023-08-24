@@ -4,23 +4,28 @@ Assert things in JavaScript. Use the assertion functions for testing, or the hel
 
 ```js
 // Typos when type checking.
-if (typeof myImportantParameter !== 'funcion') {
-    throw TypeError('Invalid parameter');
+if (typeof myFunctionParameter !== 'funcion') {
+    throw TypeError('Invalid function parameter');
 }
 
-if (myImportantParameter && typeof myImportantParameter === 'string') {
-    doStringThing(myImportantParameter);
+// Long and confusing conditionals.
+if (myOtherParameter && typeof myOtherParameter === 'string') {
+    doStringThing(myOtherParameter);
 }
 
 // Replace the above with:
-if (isNonEmptyString(myImportantParameter)) {
-    doStringThing(myImportantParameter);
+if (!isFunction(myFunctionParameter)) {
+    throw TypeError('Invalid function parameter');
+}
+
+if (isNonEmptyString(myOtherParameter)) {
+    doStringThing(myOtherParameter);
 }
 ```
 
 Created by [Kris Walker](https://www.kriswalker.me) 2017 - 2023.
 
-This library is designed for use in Node.js >= 12.0.0 or any version of Deno.js. You could use it in a browser, but there are no plans to offer CommonJS or AMD modules.
+This library is designed for use in Node.js >= 14.5.0 or any version of Deno.js. You could use it in a browser, but there are no plans to offer CommonJS or AMD modules. It targets [ES2020](https://node.green/#ES2020) and earlier. We use the optional chaining operator "?.".
 
 Please don't bother running benchmarks on this library. Correctness and readability are design objectives. Conserving CPU cycles is not.
 
