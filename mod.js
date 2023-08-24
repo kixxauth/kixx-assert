@@ -515,6 +515,10 @@ export function assertThrowsError(fn, message) {
     }
 }
 
+//
+// WARNING
+// These error assertions are untested and undocumented but left here as reference.
+//
 export const assertThrowsErrorMessage = curryAssertion2((messagePart, fn, messageSuffix) => {
     let didThrow = false;
     try {
@@ -543,6 +547,10 @@ export const assertThrowsErrorMessage = curryAssertion2((messagePart, fn, messag
     return null;
 });
 
+//
+// WARNING
+// These error assertions are untested and undocumented but left here as reference.
+//
 export const assertThrowsErrorCode = curryAssertion2((errorCode, fn, messageSuffix) => {
     let didThrow = false;
     try {
@@ -573,6 +581,10 @@ export const assertThrowsErrorCode = curryAssertion2((errorCode, fn, messageSuff
     return null;
 });
 
+//
+// WARNING
+// These error assertions are untested and undocumented but left here as reference.
+//
 export const assertThrowsErrorClass = curryAssertion2((errorClass, fn, messageSuffix) => {
     let didThrow = false;
     try {
