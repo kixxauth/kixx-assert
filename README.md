@@ -14,7 +14,7 @@ Created by [Kris Walker](https://www.kriswalker.me) 2017 - 2023.
 | Node.js | >= 14.17.0 |
 | Deno    | >= 1.0.0   |
 
-This library is designed for use in an ES6 module environment requiring __Node.js >= 14.17.0__ and __Deno >= 1.0.0__. You could use it in a browser, but there are no plans to offer CommonJS or AMD modules. It targets at least [ES2020](https://node.green/#ES2020) and uses the optional chaining operator `?.`.
+This library is designed for use in an ES6 module environment requiring __Node.js >= 14.17.0__ or __Deno >= 1.0.0__. You could use it in a browser, but there are no plans to offer CommonJS or AMD modules. It targets at least [ES2020](https://node.green/#ES2020) and uses the optional chaining operator `?.`.
 
 If you're curious: Node.js >= 14.17.0 is required for [ES6 module stabilization](https://nodejs.org/dist/latest-v18.x/docs/api/esm.html#modules-ecmascript-modules) and [ES2020 support](https://node.green/#ES2020).
 
@@ -413,36 +413,57 @@ includesEmptyString([ 'foo', 'bar' ]) // false
 includesEmptyString([ 'foo', '', 'bar' ]) // true
 ```
 
-export function assert(x, message) {
-    if (!x) {
-        const messageSuffix = message ? ` ${ message }` : '.';
-        throw new AssertionError(
-            `Expected ${ toFriendlyString(x) } to be truthy${ messageSuffix }`,
-            null,
-            assert
-        );
+### AssertionError
+```js
+// In Deno
+import { AssertionErrors } from 'https://raw.githubusercontent.com/kixxauth/kixx-assert/2.0.0/mod.js';
+// In Node.js:
+import { AssertionErrors } from 'kixx-assert';
+
+// Use for situations like this:
+
+try {
+    assert(false);
+} catch (error) {
+    if (error instanceof AssertionError === false) {
+        console.log('Threw an unexpected error:', error.constructor.name);
     }
 }
+```
 
-export function assertFalsy(x, message) {
-    if (x) {
-        const messageSuffix = message ? ` ${ message }` : '.';
-        throw new AssertionError(
-            `Expected ${ toFriendlyString(x) } to be falsy${ messageSuffix }`,
-            null,
-            assert
-        );
-    }
-}
+### assert
+Throw an AssertionError if the passed value is not truthy.
 
-export const assertEqual = curryAssertion2((expected, actual, messageSuffix) => {
-    if (!isEqual(expected, actual)) {
-        let msg = `Expected ${ toFriendlyString(actual) }`;
-        msg += ` to equal (===) ${ toFriendlyString(expected) }`;
-        return msg + messageSuffix;
-    }
-    return null;
-});
+```js
+assert(0) // Throws AssertionError
+assert('foo') // Passes
+```
+
+### assertFalsy
+Throw an AssertionError if the passed value is not falsy.
+
+```js
+assertFalsy('foo') // Throws AssertionError
+assertFalsy(null) // Passes
+```
+
+### assertEqual
+Throw an AssertionError if the passed values are *not strictly* equal. Dates and NaN are special cases handled seperately.
+
+See [isEqual](#isequal).
+
+```js
+assertEqual(1, 2) // Throws AssertionError
+assertEqual(1, '1') // Throws AssertionError
+assertEqual(1, 1) // passes
+
+// If you do NaN === NaN you'll get false (dumb).
+// assertEqual() corrects that behavior.
+assertEqual(NaN, NaN) // passes
+
+// Compare dates :D
+assertEqual(new Date('1999'), new Date('1999')) // passes
+```
 
 export const assertNotEqual = curryAssertion2((expected, actual, messageSuffix) => {
     if (isEqual(expected, actual)) {
