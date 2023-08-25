@@ -43,6 +43,11 @@ assertTrue(isString('hello world'));
 assertFalse(isString({}));
 ```
 
+## Contents
+
+- [Library](#library)
+- [Assertions](#assertions)
+
 ## Library
 
 ### isString
@@ -413,6 +418,8 @@ includesEmptyString([ 'foo', 'bar' ]) // false
 includesEmptyString([ 'foo', '', 'bar' ]) // true
 ```
 
+## Assertions
+
 ### AssertionError
 ```js
 // In Deno
@@ -484,7 +491,7 @@ See [doesMatch()](#doesmatch)
 Can be curried.
 
 ```js
-assertMatches(/^foo/i, 'BAR') // Throws AssertionErrors
+assertMatches(/^foo/i, 'BAR') // Throws AssertionError
 assertMatches(/^foo/i, 'FOOBAR') // passes
 assertMatches('oba', 'foobar') // passes
 assertMatches('fox', 'The quick brown fox jumped over the...') // passes
@@ -495,8 +502,8 @@ You can curry it!
 ```js
 const assertShortDateString = assertMatches(/^[\d]{4}-[\d]{2}-[\d]{2}$/);
 
-assertShortDateString('14 September 2020') // false
-assertShortDateString('2020-09-14') // true
+assertShortDateString('14 September 2020') // Throws AssertionError
+assertShortDateString('2020-09-14') // passes
 ```
 
 ### assertNotMatches
@@ -523,27 +530,23 @@ assertEmpty(0) // passes
 The inverse of [assertEmpty()](#assertempty)
 
 ### assertDefined
-export function assertDefined(x, message) {
-    if (isUndefined(x)) {
-        const messageSuffix = message ? ` ${ message }` : '.';
-        throw new AssertionError(
-            `Expected ${ toFriendlyString(x) } to be defined${ messageSuffix }`,
-            null,
-            assertDefined
-        );
-    }
-}
+Uses [isUndefined()](#isundefined) internally.
 
-export function assertUndefined(x, message) {
-    if (!isUndefined(x)) {
-        const messageSuffix = message ? ` ${ message }` : '.';
-        throw new AssertionError(
-            `Expected ${ toFriendlyString(x) } to be undefined${ messageSuffix }`,
-            null,
-            assertUndefined
-        );
-    }
-}
+```js
+assertDefined(undefined) // Throws AssertionError
+assertDefined(new Date().foo) // Throws AssertionError
+assertDefined(new Map().size) // passes (even though .size is zero)
+assertDefined(null) // passes
+```
+
+### assertUndefined
+Inverse of [assertUndefined](#assertUndefined). Uses [isUndefined()](#isundefined) internally.
+
+```js
+assertUndefined(null) // Throws AssertionError
+assertUndefined(({}).toString) // Throws AssertionError
+assertUndefined(undefined) // passes
+```
 
 export const assertIncludes = curryAssertion2((item, list, messageSuffix) => {
     if (!includes(item, list)) {
