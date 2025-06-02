@@ -9,12 +9,10 @@ export default function test_assertDefined() {
     const assertThrowsAssertionError = assertThrowsErrorClass(AssertionError);
 
     assertThrowsAssertionError(() => {
-        // eslint-disable-next-line no-undefined
         assertDefined(undefined, 'of undefined');
     });
 
     try {
-        // eslint-disable-next-line no-undefined
         assertDefined(undefined, 'of undefined');
     } catch (err) {
         assertEqual(

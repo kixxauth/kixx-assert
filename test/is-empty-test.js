@@ -49,7 +49,7 @@ export default function test_isEmpty() {
 
     assertTrue(isEmpty(null));
     assertTrue(isEmpty(NaN));
-    assertTrue(isEmpty(undefined)); // eslint-disable-line no-undefined
+    assertTrue(isEmpty(undefined));
     assertTrue(isEmpty(void 0));
     assertTrue(isEmpty());
 

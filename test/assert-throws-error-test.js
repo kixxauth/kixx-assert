@@ -113,7 +113,7 @@ export default function test_assertThrowsError() {
         assertThrowsError(() => {
             throw new TypeError('Not a SyntaxError');
         }, messageSuffix);
-    } catch (err) {
+    } catch (err) { // eslint-disable-line no-unused-vars
         didThrow = true;
     }
 

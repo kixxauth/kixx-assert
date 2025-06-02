@@ -269,19 +269,19 @@ export function includes(item, list) {
 
 export function toFriendlyString(x) {
     if (isString(x)) {
-        return 'String("'+ x +'")';
+        return 'String("' + x + '")';
     }
     if (isBigInt(x)) {
-        return 'BigInt('+ x +')';
+        return 'BigInt(' + x + ')';
     }
     // WARNING
     // Checking isNumber() will return true for BigInt instances as well as
     // Numbers, so the isBigInt() check needs to come before isNumber().
     if (isNumber(x)) {
-        return 'Number('+ x +')';
+        return 'Number(' + x + ')';
     }
     if (isBoolean(x)) {
-        return 'Boolean('+ x +')';
+        return 'Boolean(' + x + ')';
     }
     if (isSymbol(x)) {
         return x.toString();
@@ -293,7 +293,7 @@ export function toFriendlyString(x) {
         // This will get "Function" or "AsyncFunction":
         const prefix = protoToString.call(x).slice(8, -1);
         if (x.name) {
-            return prefix + '('+ x.name +'() {})';
+            return prefix + '(' + x.name + '() {})';
         }
         return prefix + '(function () {})';
     }
@@ -310,21 +310,21 @@ export function toFriendlyString(x) {
         if (x.length === 0) {
             return 'Array([])';
         }
-        return 'Array([0..'+ (x.length - 1) +'])';
+        return 'Array([0..' + (x.length - 1) + '])';
     }
     if (isValidDate(x)) {
-        return 'Date('+ x.toISOString() +')';
+        return 'Date(' + x.toISOString() + ')';
     }
     if (isDate(x)) {
         return 'Date(Invalid)';
     }
     if (isRegExp(x)) {
-        return 'RegExp('+ x +')';
+        return 'RegExp(' + x + ')';
     }
 
     const name = x.constructor?.name || 'Object';
 
-    return name +'('+ x +')';
+    return name + '(' + x + ')';
 }
 
 export function curryAssertion1(guard) {

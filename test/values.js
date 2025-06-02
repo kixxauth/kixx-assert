@@ -26,7 +26,7 @@ export function funcDef() {
 }
 
 export function getValues(mapper, _undefined) {
-    /* eslint-disable brace-style, array-bracket-spacing, max-statements-per-line */
+    /* eslint-disable brace-style, array-bracket-spacing, */
     const list = [
         [ null, 'null' ],
         [ _undefined, 'undefined' ],
@@ -79,7 +79,7 @@ export function getValues(mapper, _undefined) {
         [ /^start/i, '/^start/i' ],
         [ new RegExp('^start', 'i'), 'new RegExp("^start", "i")' ],
     ];
-    /* eslint-enable brace-style, array-bracket-spacing, max-statements-per-line */
+    /* eslint-enable brace-style, array-bracket-spacing */
 
     return list.map(mapper);
 }

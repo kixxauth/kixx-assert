@@ -21,7 +21,6 @@ export default function test_assertUndefined() {
         );
     }
 
-    // eslint-disable-next-line no-undefined
     assertUndefined(undefined);
 
     // eslint-disable-next-line no-console,no-undef

@@ -29,7 +29,7 @@ export const tests = [
     [ 0, 1, 'numbers 0, 1', false ],
     [ 2, 1, 'numbers 2, 1', false ],
     [ 0, 0, 'numbers 0, 0', true ],
-    [ (1/3), (1/3), 'numbers (1/3), (1/3)', true ],
+    [ (1 / 3), (1 / 3), 'numbers (1/3), (1/3)', true ],
     [ 0, -0, 'numbers 0, -0', true ],
     [ 1, '1', 'numbers 1, "1"', false ],
     [ NaN, -0, 'numbers NaN, -0', false ],
