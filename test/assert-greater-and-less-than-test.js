@@ -1,14 +1,11 @@
 import {
-    AssertionError,
-    assertThrowsErrorClass,
     assertGreaterThan,
     assertLessThan
 } from '../mod.js';
 
+import { assertThrowsAssertionError } from './helpers.js';
 
 export default function test_assertGTandLT() {
-
-    const assertThrowsAssertionError = assertThrowsErrorClass(AssertionError);
 
     // Using Date objects as test subjects here:
     // 1. I think that's a cool use case.

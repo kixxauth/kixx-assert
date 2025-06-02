@@ -1,9 +1,10 @@
 import {
     AssertionError,
     toFriendlyString,
-    assertThrowsErrorMessage,
     assert
 } from '../mod.js';
+
+import { assertThrowsErrorMessage } from './helpers.js';
 
 import { getValues } from './values.js';
 
@@ -92,7 +93,7 @@ export default function test_assert() {
         } else {
             assertThrowsErrorMessage(messageSuffix, () => {
                 assert(val, messageSuffix);
-            }, messageSuffix);
+            });
         }
     });
 

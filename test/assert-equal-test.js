@@ -1,9 +1,10 @@
 import {
     AssertionError,
     toFriendlyString,
-    assertThrowsErrorMessage,
     assertEqual
 } from '../mod.js';
+
+import { assertThrowsErrorMessage } from './helpers.js';
 
 import { tests } from './is-equal-test.js';
 
@@ -29,7 +30,7 @@ export default function test_assertEqual() {
         } else {
             assertThrowsErrorMessage(messageSuffix, () => {
                 assertEqual(a, b, messageSuffix);
-            }, messageSuffix);
+            });
         }
     });
 
@@ -44,7 +45,7 @@ export default function test_assertEqual() {
         } else {
             assertThrowsErrorMessage(messageSuffix, () => {
                 assertEqualToA(b, messageSuffix);
-            }, messageSuffix);
+            });
         }
     });
 

@@ -8,11 +8,11 @@ Created by [Kris Walker](https://www.kriswalker.me) 2017 - 2023.
 
 ## Environment Support
 
-| Env     | Version    |
-|---------|------------|
-| ECMA    | >= ES2020  |
-| Node.js | >= 14.17.0 |
-| Deno    | >= 1.0.0   |
+| Env     | Version   |
+|---------|-----------|
+| ECMA    | >= ES2020 |
+| Node.js | >= 14.5.0 |
+| Deno    | >= 1.0.0  |
 
 This library is designed for use in an ES6 module environment requiring __Node.js >= 14.17.0__ or __Deno >= 1.0.0__. You could use it in a browser, but there are no plans to offer CommonJS or AMD modules. It targets at least [ES2020](https://node.green/#ES2020) and uses the optional chaining operator `?.`.
 

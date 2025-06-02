@@ -1,13 +1,12 @@
 import {
-    AssertionError,
     assertEqual,
-    assertThrowsErrorClass,
     assertUndefined
 } from '../mod.js';
 
-export default function test_assertUndefined() {
-    const assertThrowsAssertionError = assertThrowsErrorClass(AssertionError);
+import { assertThrowsAssertionError } from './helpers.js';
 
+
+export default function test_assertUndefined() {
     assertThrowsAssertionError(() => {
         assertUndefined(1, 'of 1');
     });
@@ -16,7 +15,7 @@ export default function test_assertUndefined() {
         assertUndefined(1, 'of 1');
     } catch (err) {
         assertEqual(
-            'Expected Number(1) to be undefined of 1',
+            'of 1 (Expected Number(1) to be undefined)',
             err.message
         );
     }

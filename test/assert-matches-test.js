@@ -1,9 +1,10 @@
 import {
     AssertionError,
     toFriendlyString,
-    assertThrowsErrorMessage,
     assertMatches
 } from '../mod.js';
+
+import { assertThrowsErrorMessage } from './helpers.js';
 
 import { tests } from './does-match-test.js';
 
@@ -29,7 +30,7 @@ export default function test_assertMatches() {
         } else {
             assertThrowsErrorMessage(messageSuffix, () => {
                 assertMatches(matcher, val, messageSuffix);
-            }, messageSuffix);
+            });
         }
     });
 
@@ -43,7 +44,7 @@ export default function test_assertMatches() {
         } else {
             assertThrowsErrorMessage(messageSuffix, () => {
                 assertMatchesMatcher(val, messageSuffix);
-            }, messageSuffix);
+            });
         }
     });
 
