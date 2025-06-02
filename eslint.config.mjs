@@ -10,8 +10,8 @@ export default [
     js.configs.recommended,
     {
         languageOptions: {
-            // See https://node.green/#ES2020
-            ecmaVersion: 2020,
+            // See https://node.green/#ES2022
+            ecmaVersion: 2022,
             sourceType: 'module',
             globals: {
                 structuredClone: 'readonly',

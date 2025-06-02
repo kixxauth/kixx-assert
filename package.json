@@ -5,7 +5,7 @@
   "type": "module",
   "main": "mod.js",
   "engines": {
-    "node": ">=14.5.0"
+    "node": ">=16.13.2"
   },
   "scripts": {
     "test": "eslint ./ && node ./test/run-tests.js",
