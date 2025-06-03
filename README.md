@@ -24,23 +24,24 @@ __Note:__ There is no TypeScript here. It would be waste of time for a library a
 
 ## Usage
 ```js
-// In Deno
-import { isString, assertEquals } from 'https://raw.githubusercontent.com/kixxauth/kixx-assert/2.0.0/mod.js';
 // In Node.js:
 import { isString, assertEquals } from 'kixx-assert';
 
-assertEquals(true, isString('hello world'));
-assertEquals(false, isString({}));
+isNonEmptyString('hello world'); // true
+isNonEmptyString(''); // false
+isNonEmptyString({}); // false
+
+assertEquals('hello world', 'hello world');
+assertEquals({}, {}); // Throws an AssertionError
 ```
 
 Also supports currying :tada:
 
 ```js
-const assertTrue = assertEqual(true);
-const assertFalse = assertEqual(false);
+const assertFoo = assertEqual('Foo');
 
-assertTrue(isString('hello world'));
-assertFalse(isString({}));
+assertFoo('Foo', 'Expecting Foo'); // Throws an AssertionError
+assertFoo('hello world', 'Expecting Foo'); // Throws an AssertionError
 ```
 
 ## Contents
@@ -61,14 +62,14 @@ isString(String('1')) // true
 isString(new String('1')) // true
 ````
 
+See [isNonEmptyString()](#isnonemptystring) below for something which might be more useful for you.
+
 ### isNonEmptyString
 ```js
 isNonEmptyString(1) // false
 isNonEmptyString('') // false
 isNonEmptyString('hello world') // true
 ```
-
-Uses [isString()](#isstring) internally.
 
 ### isNumber
 ```js
@@ -91,8 +92,6 @@ isNumberNotNaN(0.1) // true
 isNumberNotNaN(BigInt(7)) // true
 ```
 
-Uses [isNumber()](#isnumber) internally.
-
 ### isBoolean
 ```js
 isBoolean(1) // false
@@ -102,18 +101,6 @@ isBoolean(Boolean(1)) // true
 // If you need to do this for some (stupid) reason, then isBoolean() will still
 // return true even though typeof new Boolean() === 'object'.
 isBoolean(new Boolean(1)) // true
-```
-
-### isSymbol
-```js
-isSymbol('keyname') // false
-isSymbol(Symbol('keyname')) // true
-```
-
-### isBigInt
-```js
-isBigInt(1) // false
-isBigInt(BigInt(1)) // true
 ```
 
 ### isUndefined
@@ -150,10 +137,10 @@ async function helloWorld() {
     return res;
 }
 
-isFunction('foo') // false
-isFunction(() => {}) // true
-isFunction(helloWorld) // true
 isFunction(new Foo().yell) // true
+isFunction(helloWorld) // true
+isFunction(() => {}) // true
+isFunction('foo') // false
 ```
 
 ### isPlainObject
@@ -196,148 +183,6 @@ isSet(new Set()) // true
 isSet(new WeakSet()) // true
 ```
 
-### has
-Can be curried.
-
-```js
-class Widget {
-
-    prop = 1;
-
-    constructor() {
-        Object.defineProperties(this, {
-            obvious: {
-                enumerable: true,
-                value: 2,
-            },
-            needToKnow: {
-                enumerable: false,
-                value: 3,
-            },
-        });
-    }
-
-    get bar() {
-        return 4;
-    }
-
-    start() {
-        return null;
-    }
-
-    static create() {
-        return new Widget();
-    }
-}
-
-const widget = new Widget();
-
-has('prop', widget) // true
-has('obvious', widget) // true
-has('needToKnow', widget) // true
-has('bar', widget) // true
-has('start', widget) // true
-
-// Class method
-has('create', Widget) // true
-
-// Does not exist
-has('foo', widget);
-```
-
-You can curry it!
-
-```js
-const hasStart = has('start');
-
-hasStart(widget) // true
-```
-
-### hasOwn
-Can be curried.
-
-```js
-class Widget {
-
-    prop = 1;
-
-    constructor() {
-        Object.defineProperties(this, {
-            obvious: {
-                enumerable: true,
-                value: 2,
-            },
-            needToKnow: {
-                enumerable: false,
-                value: 3,
-            },
-        });
-    }
-
-    get bar() {
-        return 4;
-    }
-
-    start() {
-        return null;
-    }
-
-    static create() {
-        return new Widget();
-    }
-}
-
-const widget = new Widget();
-
-hasOwn('prop', widget) // true
-hasOwn('obvious', widget) // true
-hasOwn('needToKnow', widget) // true
-hasOwn('bar', widget) // false
-hasOwn('start', widget) // false
-
-// Class method
-hasOwn('create', Widget) // true
-```
-
-You can curry it!
-
-```js
-const hasObvious = has('obvious');
-
-hasObvious(widget) // true
-```
-
-### ownKeys
-```js
-Object.keys(null) // Error!
-
-ownKeys(null) // []
-ownKeys({ foo: 'bar' }) // [ "foo" ]
-```
-
-### isEmpty
-```js
-isEmpty([1]) // false
-isEmpty([]) // true
-isEmpty({ foo: 'bar' }) // false
-isEmpty({}) // true
-isEmpty(new Map()) // true
-isEmpty(new Set()) // true
-isEmpty(new Map([['foo', 1]])) // false
-isEmpty(new Set([1])) // false
-isEmpty('hello world') // false
-isEmpty('') // true
-isEmpty(new Date()) // false
-isEmpty(new Date('Invalid')) // false
-isEmpty(null) // true
-isEmpty(undefined) // true
-isEmpty() // true
-isEmpty(false) // true
-isEmpty(true) // false
-isEmpty(0) // true
-isEmpty(1) // false
-```
-
 ### isEqual
 Provides a clever date comparison and some safety against stupid stuff with NaN.
 
@@ -356,7 +201,7 @@ isEqual(NaN, NaN) // true
 isEqual(new Date('1999'), new Date('1999')) // true
 ```
 
-You can curry it!
+You can curry it! :tada:
 
 ```js
 const isOne = isEqual(1);
@@ -367,6 +212,8 @@ isOne(1) // true
 ### doesMatch
 A wiz at matching strings and RegExp, but can match just about anything.
 
+If the matcher is a regular expression then doesMatch() will call RegExp:test() using the subject. If the subject is equal to the matcher (using isEqual()) then return true. If the subject is a String then check to see if the String contains the matcher with String:includes(). If the subject is a valid Date then convert it to a string using Date:toISOString() before making the comparison.
+
 Can be curried.
 
 ```js
@@ -376,7 +223,7 @@ doesMatch('oba', 'foobar') // true
 doesMatch('fox', 'The quick brown fox jumped over the...') // true
 ```
 
-You can curry it!
+You can curry it! :tada:
 
 ```js
 const isShortDateString = doesMatch(/^[\d]{4}-[\d]{2}-[\d]{2}$/);
@@ -385,47 +232,22 @@ isShortDateString('14 September 2020') // false
 isShortDateString('2020-09-14') // true
 ```
 
-### includes
-Can be curried.
+### toFriendlyString
+Coerces the passed value into a String which more closely represents what the thing is.
 
 ```js
-includes(1, [ 0, 5, 9]) // false
-includes('x', 'foobar') // false
-includes(9, [ 0, 5, 9]) // true
-includes('oba', 'foobar') // true
-
-// Objects look at values, not keys. To check the key use has() or hasOwn().
-includes('hello', { hello: 'world' }) // false
-includes('world', { hello: 'world' }) // true
-
-// Check the values of a Map or Set
-includes(8, new Map([[ 'eight', 8 ]])) // true
-includes('hello', new Set([ 'hello' ])) // true
-includes('hello', new WeakSet([ 'hello' ])) // true
-
-// Because of the way WeakMaps work, include() is only able
-// to look at the keys. You probably should *not* use it this way.
-includes(8, new WeakMap([[ 'eight', 8 ]])) // false
-includes('eight', new WeakMap([[ 'eight', 8 ]])) // false
+toFriendlyString('foo'); // "String(foo)"
+toFriendlyString(false); // "Boolean(false)"
+toFriendlyString(new Date('foo')); // "Date(Invalid)"
+toFriendlyString([1,2,3]); // "Array([0..2])"
 ```
 
-You can curry it!
+## AssertionError
+All the assertion functions in this library throw an AssertionError when they fail. You could also use the constructor to create special AssertionErrors elsewhere in your code if you'd like.
 
 ```js
-includesEmptyString = includes('');
-
-includesEmptyString([ 'foo', 'bar' ]) // false
-includesEmptyString([ 'foo', '', 'bar' ]) // true
-```
-
-## Assertions
-
-### AssertionError
-```js
-// In Deno
-import { AssertionErrors } from 'https://raw.githubusercontent.com/kixxauth/kixx-assert/2.0.0/mod.js';
 // In Node.js:
-import { AssertionErrors } from 'kixx-assert';
+import { AssertionError } from 'kixx-assert';
 
 // Use for situations like this:
 
@@ -436,6 +258,33 @@ try {
         console.log('Threw an unexpected error:', error.constructor.name);
     }
 }
+```
+
+## Assertions
+Assertion functions generally come in two flavors: Single subject or control and subject checks. A message string can be passed into either type of assertion as the last argument.
+
+An example of a single subject check with a message string:
+
+```js
+assertNonEmptyString(null, 'This value should be a string');
+// Throws an AssertionError("This value should be a string (Expected null to be a non-empty String)")
+```
+
+An example of a control and subject check with a message string:
+```js
+const control = 'foo';
+const subject = 'bar';
+
+assertEqual(control, subject, 'Subject is equal to control');
+// Throws an AssertionError("Subject is equal to control (Expected String(bar) to equal (===) String(foo))")
+```
+
+The control/subject checks can be curried:
+```js
+const assertFoo = assertEqual('foo');
+
+assertFoo(subject, 'Subject is foo');
+// Throws an AssertionError("Subject is foo (Expected String(bar) to equal (===) String(foo))")
 ```
 
 ### assert
@@ -459,8 +308,6 @@ Throw an AssertionError if the passed values are *not strictly* equal. Dates and
 
 See [isEqual](#isequal).
 
-Can be curried.
-
 ```js
 assertEqual(1, 2) // Throws AssertionError
 assertEqual(1, '1') // Throws AssertionError
@@ -474,7 +321,7 @@ assertEqual(NaN, NaN) // passes
 assertEqual(new Date('1999'), new Date('1999')) // passes
 ```
 
-You can curry it!
+You can curry it! :tada:
 
 ```js
 const assertIs1 = assertEqual(1);
@@ -497,7 +344,7 @@ assertMatches('oba', 'foobar') // passes
 assertMatches('fox', 'The quick brown fox jumped over the...') // passes
 ```
 
-You can curry it!
+You can curry it! :tada:
 
 ```js
 const assertShortDateString = assertMatches(/^[\d]{4}-[\d]{2}-[\d]{2}$/);
@@ -508,26 +355,6 @@ assertShortDateString('2020-09-14') // passes
 
 ### assertNotMatches
 The inverse of [assertMatches()](#assertmatches)
-
-### assertEmpty
-See [isEmpty()](#isempty)
-
-```js
-assertEmpty([1]) // Throws AssertionError
-assertEmpty([]) // passes
-assertEmpty({ foo: 'bar' }) // Throws AssertionError
-assertEmpty({}) // passes
-assertEmpty(new Map()) // passes
-assertEmpty('hello world') // passes
-assertEmpty('') // passes
-assertEmpty(null) // passes
-assertEmpty(undefined) // passes
-assertEmpty(false) // passes
-assertEmpty(0) // passes
-```
-
-### assertNotEmpty
-The inverse of [assertEmpty()](#assertempty)
 
 ### assertDefined
 Uses [isUndefined()](#isundefined) internally.
@@ -547,155 +374,65 @@ assertUndefined(null) // Throws AssertionError
 assertUndefined(({}).toString) // Throws AssertionError
 assertUndefined(undefined) // passes
 ```
+### assertNonEmptyString
+See [isNonEmptyString()](#isnonemptystring).
 
-export const assertIncludes = curryAssertion2((item, list, messageSuffix) => {
-    if (!includes(item, list)) {
-        const msg = `Expected ${ toFriendlyString(list) } to include `;
-        return msg + toFriendlyString(item) + messageSuffix;
-    }
-    return null;
-});
+### assertNumberNotNaN
+See [isNumberNotNaN()](#isnumbernotnan).
 
-export const assertExcludes = curryAssertion2((item, list, messageSuffix) => {
-    if (includes(item, list)) {
-        const msg = `Expected ${ toFriendlyString(list) } NOT to include `;
-        return msg + toFriendlyString(item) + messageSuffix;
-    }
-    return null;
-});
+### assertArray
+Uses the native Array.isArray().
 
-export const assertGreaterThan = curryAssertion2((control, subject, messageSuffix) => {
-    if (subject <= control) {
-        const msg = `Expected ${ toFriendlyString(subject) } to be greater than `;
-        return msg + toFriendlyString(control) + messageSuffix;
-    }
-    return null;
-});
+### assertBoolean
+See [isBoolean()](#isboolean).
 
-export const assertLessThan = curryAssertion2((control, subject, messageSuffix) => {
-    if (subject >= control) {
-        const msg = `Expected ${ toFriendlyString(subject) } to be less than `;
-        return msg + toFriendlyString(control) + messageSuffix;
-    }
-    return null;
-});
+### assertFunction
+See [isFunction()](#isfunction).
 
-export function assertThrowsError(fn, message) {
-    const messageSuffix = message ? ` ${ message }` : '.';
+### assertValidDate
+See [isValidDate()](#isvaliddate).
 
-    let didThrow = false;
-    try {
-        fn();
-    } catch (err) {
-        didThrow = true;
+### assertRegExp
+See [isRegExp()](#isregexp).
 
-        if (err instanceof Error === false) {
-            let msg = 'Expected function to throw instance of Error';
-            msg += ' but instead threw instance of ';
-            msg += (err?.constructor?.name || '[not an object]');
-            throw new AssertionError(msg + messageSuffix);
-        }
-    }
+### assertGreaterThan
+If the subject is less than or equal to the control the test will fail.
 
-    if (!didThrow) {
-        throw new AssertionError(`Expected function to throw${ messageSuffix }`);
-    }
-}
+Can be curried.
 
-export function toFriendlyString(x) {
-    if (isString(x)) {
-        return 'String("'+ x +'")';
-    }
-    if (isBigInt(x)) {
-        return 'BigInt('+ x +')';
-    }
-    // WARNING
-    // Checking isNumber() will return true for BigInt instances as well as
-    // Numbers, so the isBigInt() check needs to come before isNumber().
-    if (isNumber(x)) {
-        return 'Number('+ x +')';
-    }
-    if (isBoolean(x)) {
-        return 'Boolean('+ x +')';
-    }
-    if (isSymbol(x)) {
-        return x.toString();
-    }
-    if (isUndefined(x)) {
-        return 'undefined';
-    }
-    if (isFunction(x)) {
-        // This will get "Function" or "AsyncFunction":
-        const prefix = protoToString.call(x).slice(8, -1);
-        if (x.name) {
-            return prefix + '('+ x.name +'() {})';
-        }
-        return prefix + '(function () {})';
-    }
-    if (x === null) {
-        return 'null';
-    }
-    if (Object.getPrototypeOf(x) === null) {
-        return 'Object(null)';
-    }
-    if (isPlainObject(x)) {
-        return 'Object({})';
-    }
-    if (Array.isArray(x)) {
-        if (x.length === 0) {
-            return 'Array([])';
-        }
-        return 'Array([0..'+ (x.length - 1) +'])';
-    }
-    if (isValidDate(x)) {
-        return 'Date('+ x.toISOString() +')';
-    }
-    if (isDate(x)) {
-        return 'Date(Invalid)';
-    }
-    if (isRegExp(x)) {
-        return 'RegExp('+ x +')';
-    }
+```js
+const control = new Date();
 
-    const name = x.constructor?.name || 'Object';
+// This comparison of 1970 to today will throw an AssertionError
+assertGreaterThan(control, new Date(0));
+```
 
-    return name +'('+ x +')';
-}
+You can curry it! :tada:
 
-export function curryAssertion1(guard) {
-    return function curriedAssertion1(x, message) {
-        message = message ? ` ${ message }` : '.';
-        const msg = guard(x, message);
-        if (msg) {
-            throw new AssertionError(msg, null, curriedAssertion1);
-        }
+```js
+const assertGreaterThan100 = assertGreaterThan(100);
 
-        return null;
-    };
-}
+assertGreaterThan100(99); // Will throw an AssertionError
+```
 
-export function curryAssertion2(guard) {
-    return function curriedAssertion2(expected, actual, message) {
-        if (arguments.length < 2) {
-            return function curriedInnerAssert(_actual, _message) {
-                _message = _message ? ` ${ _message }` : '.';
-                const _msg = guard(expected, _actual, _message);
-                if (_msg) {
-                    throw new AssertionError(_msg, null, curriedInnerAssert);
-                }
-            };
-        }
+### assertLessThan
+If the subject is greater than or equal to the control the test will fail.
 
-        message = message ? ` ${ message }` : '.';
-        const msg = guard(expected, actual, message);
-        if (msg) {
-            throw new AssertionError(msg, null, curriedAssertion2);
-        }
+Can be curried.
 
-        return null;
-    };
-}
+```js
+const control = 'A';
 
+assertLessThan(control, 'B'); // Will throw an AssertionError
+```
+
+You can curry it! :tada:
+
+```js
+const assertBeforeToday = assertLessThan(new Date());
+
+assertBeforeToday(new Date()); // Will throw an AssertionError
+```
 
 Copyright and License
 ---------------------

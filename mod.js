@@ -18,10 +18,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -47,7 +47,6 @@ export class AssertionError extends Error {
         super(message, { cause });
 
         const name = spec.name || this.constructor.name;
-
         const causeCode = cause && cause.code;
         const code = spec.code || causeCode || this.constructor.CODE;
 
@@ -65,6 +64,12 @@ export class AssertionError extends Error {
             Object.defineProperty(this, 'code', {
                 enumerable: true,
                 value: code,
+            });
+        }
+        if (typeof spec.operator !== 'undefined') {
+            Object.defineProperty(this, 'operator', {
+                enumerable: true,
+                value: spec.operator,
             });
         }
 
