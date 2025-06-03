@@ -25,7 +25,7 @@ __Note:__ There is no TypeScript here. It would be waste of time for a library a
 ## Usage
 ```js
 // In Node.js:
-import { isString, assertEquals } from 'kixx-assert';
+import { isNonEmptyString, assertEquals } from 'kixx-assert';
 
 isNonEmptyString('hello world'); // true
 isNonEmptyString(''); // false
@@ -40,18 +40,21 @@ Also supports currying :tada:
 ```js
 const assertFoo = assertEqual('Foo');
 
-assertFoo('Foo', 'Expecting Foo'); // Throws an AssertionError
+assertFoo('Foo', 'Expecting Foo'); // Passes
 assertFoo('hello world', 'Expecting Foo'); // Throws an AssertionError
 ```
 
 ## Contents
 
 - [Library](#library)
+- [AssertionError](#assertionerror)
 - [Assertions](#assertions)
 
 ## Library
 
 ### isString
+See [isNonEmptyString()](#isnonemptystring) below for something which might be more useful for you.
+
 ```js
 isString(1) // false
 isString('1') // true
@@ -62,8 +65,6 @@ isString(String('1')) // true
 isString(new String('1')) // true
 ````
 
-See [isNonEmptyString()](#isnonemptystring) below for something which might be more useful for you.
-
 ### isNonEmptyString
 ```js
 isNonEmptyString(1) // false
@@ -72,6 +73,10 @@ isNonEmptyString('hello world') // true
 ```
 
 ### isNumber
+Detects integers, floats, BigInt, and even NaN.
+
+See [isNumberNotNaN()](#isnumbernotnan) below for something which might be more useful for you.
+
 ```js
 isNumber('2') // false
 isNumber(1) // true
@@ -79,9 +84,6 @@ isNumber(0.1) // true
 isNumber(BigInt(7)) // true
 isNumber(NaN) // true
 ```
-Detects integers, floats, BigInt, and even NaN.
-
-See [isNumberNotNaN()](#isnumbernotnan) below for something which might be more useful for you.
 
 ### isNumberNotNaN
 ```js
