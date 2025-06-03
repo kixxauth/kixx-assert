@@ -100,7 +100,7 @@ isBoolean(1) // false
 isBoolean(false) // true
 isBoolean(Boolean(1)) // true
 
-// If you need to do this for some (stupid) reason, then isBoolean() will still
+// If you need to do `new Boolean()` for some (stupid) reason, then isBoolean() will still
 // return true even though typeof new Boolean() === 'object'.
 isBoolean(new Boolean(1)) // true
 ```
