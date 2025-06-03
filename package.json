@@ -1,6 +1,6 @@
 {
   "name": "kixx-assert",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Assert things in JavaScript",
   "type": "module",
   "main": "mod.js",
@@ -16,7 +16,7 @@
     "url": "git+https://github.com/kixxauth/kixx-assert.git"
   },
   "files": [
-    "kixx-assert.js"
+    "mod.js"
   ],
   "devDependencies": {
     "@eslint/js": "9.27.0",

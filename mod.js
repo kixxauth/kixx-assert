@@ -8,6 +8,7 @@
  *    which you wouldn't otherwise find in JavaScript.
  * 2. Assertion functions which throw an AssertionError when the assertion is
  *    not true.
+ *
  * The MIT License
  *
  * Copyright (c) 2017 - 2025 Kris Walker (www.kriswalker.me).
