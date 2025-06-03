@@ -1,686 +1,441 @@
 Kixx Assert
 ===========
-A functional assertion library for ECMAScript.
+A JavaScript library for creating robust ES6 code.
 
-Created by [Kris Walker](https://www.kriswalker.me) 2017 - 2023.
+Contains test functions like `isNumberNotNaN()` which return Booleans, and assertion functions like `assertEquals()` which throw an AssertionError if the condition(s) fail.
 
-## Install in the browser:
-__AMD__ and __Browserify__ are supported. Or include in your HTML:
+Created by [Kris Walker](https://www.kriswalker.me) 2017 - 2025.
 
-```html
-<script src="./kixx-assert.js" type="text/javascript"></script>
-```
+## Environment Support
 
-Then use in your JavaScript:
+| Env     | Version    |
+|---------|------------|
+| ECMA    | >= ES2022  |
+| Node.js | >= 16.13.2 |
+| Deno    | >= 1.0.0   |
+
+This library is designed for use in an ES6 module environment requiring __Node.js >= 16.13.2__ or __Deno >= 1.0.0__. You could use it in a browser, but there are no plans to offer CommonJS or AMD modules. It targets at least [ES2022](https://node.green/#ES2022) and uses the optional chaining operator `?.`.
+
+If you're curious: Node.js >= 16.13.2 is required for [ES6 module stabilization](https://nodejs.org/dist/latest-v18.x/docs/api/esm.html#modules-ecmascript-modules) and [ES2022 support](https://node.green/#ES2020).
+
+Please don't bother running benchmarks on this library. Correctness and readability are design objectives. Conserving CPU cycles is not. It is very unlikely any utilities in this library would have a measureable performance impact on your application, and if they did you should probably be implementing something more optimized to your specific use case.
+
+__Note:__ There is no TypeScript here. It would be waste of time for a library as small as this.
+
+## Usage
 ```js
-var KixxAssert = window.KixxAssert;
+// In Node.js:
+import { isString, assertEquals } from 'kixx-assert';
+
+isNonEmptyString('hello world'); // true
+isNonEmptyString(''); // false
+isNonEmptyString({}); // false
+
+assertEquals('hello world', 'hello world');
+assertEquals({}, {}); // Throws an AssertionError
 ```
 
-## Install in a Node.js project:
-Install with NPM on the command line:
-```
-$ npm install --save kixx-assert
-```
-
-Then use in your project:
-```js
-const KixxAssert = require('kixx-assert');
-```
-
-## API
-
-__Errors__
-
-- [AssertionError](#assertionerror)
-
-__Assertions__
-
-- [isOk(subject, reason)](#assertisok)
-- [isNotOk(subject, reason)](#assertisnotok)
-- [isEqual(expected, actual, reason)](#assertisequal)
-- [isNotEqual(expected, actual, reason)](#assertisnotequal)
-- [isMatch(pattern, actual, reason)](#assertismatch)
-- [isNotMatch(pattern, actual, reason)](#assertisnotmatch)
-- [isUndefined(subject, reason)](#assertisundefined)
-- [isDefined(subject, reason)](#assertisdefined)
-- [isEmpty(subject, reason)](#assertisempty)
-- [isNotEmpty(subject, reason)](#assertisnotempty)
-- [includes(item, subject, reason)](#assertincludes)
-- [doesNotInclude(item, subject, reason)](#assertdoesnotinclude)
-- [has(key, subject, reason)](#asserthas)
-- [doesNotHave(key, subject, reason)](#assertdoesnothave)
-- [isGreaterThan(a, b, reason)](#assertisgreaterthan)
-- [isLessThan(a, b, reason)](#assertislessthan)
-- [isNonEmptyString(subject, reason)](#assertisnonemptystring)
-- [isNumberNotNaN(subject, reason)](#assertisnumbernotnan)
-
-__helpers__
-
-- [identity(x)](#helpersidentity)
-- [complement(f)](#helperscomplement)
-- [type(v)](#helperstype)
-- [keys(x)](#helperskeys)
-- [has(prop, x)](#helpershas)
-- [equal(a, b)](#helpersequal)
-- [greaterThan(a, b)](#helpersgreaterthan)
-- [lessThan(a, b)](#helperslessthan)
-- [match(matcher, x)](#helpersmatch)
-- [isPrimitive(x)](#helpersisprimitive)
-- [isString(x)](#helpersisstring)
-- [isNumber(x)](#helpersisnumber)
-- [isBoolean(x)](#helpersisboolean)
-- [isArray(x)](#helpersisarray)
-- [isObject(x)](#helpersisobject)
-- [isFunction(x)](#helpersisfunction)
-- [isNull(x)](#helpersisnull)
-- [isUndefined(x)](#helpersisundefined)
-- [isDefined(x)](#helpersisdefined)
-- [isNumberNotNaN(x)](#helpersisnumbernotnan)
-- [isNonEmptyString(x)](#helpersisnonemptystring)
-- [isEmpty(x)](#helpersisempty)
-- [isNotEmpty(x)](#helpersisnotempty)
-- [includes(item, list)](#helpersincludes)
-- [doesNotInclude(item, list)](#helpersdoesnotinclude)
-- [toString(item, list)](#helperstostring)
-- [printf(pattern, ..rest)](#helpersprintf)
-- [assertion1(guard, reason)](#helpersassertion1)
-- [assertion2(guard, reason)](#helpersassertion2)
-
-
-### AssertionError
-An Error constructor used to identify assertion errors. Passing in a caller can help isolate stack traces to make them more usable.
-
-Access in browsers: `window.KixxAssert.AssertionError`;
-
-Access in Node.js: `require('kixx-assert').AssertionError`;
+Also supports currying :tada:
 
 ```js
-// Example:
-function myFunction() {
-    throw new KixxAssert.AssertionError('test error', null, myFunction);
+const assertFoo = assertEqual('Foo');
+
+assertFoo('Foo', 'Expecting Foo'); // Throws an AssertionError
+assertFoo('hello world', 'Expecting Foo'); // Throws an AssertionError
+```
+
+## Contents
+
+- [Library](#library)
+- [Assertions](#assertions)
+
+## Library
+
+### isString
+```js
+isString(1) // false
+isString('1') // true
+isString(String('1')) // true
+
+// If you need to do this for some (dumb) reason, then isString() will still
+// return true even though typeof new String() === 'object'.
+isString(new String('1')) // true
+````
+
+See [isNonEmptyString()](#isnonemptystring) below for something which might be more useful for you.
+
+### isNonEmptyString
+```js
+isNonEmptyString(1) // false
+isNonEmptyString('') // false
+isNonEmptyString('hello world') // true
+```
+
+### isNumber
+```js
+isNumber('2') // false
+isNumber(1) // true
+isNumber(0.1) // true
+isNumber(BigInt(7)) // true
+isNumber(NaN) // true
+```
+Detects integers, floats, BigInt, and even NaN.
+
+See [isNumberNotNaN()](#isnumbernotnan) below for something which might be more useful for you.
+
+### isNumberNotNaN
+```js
+isNumberNotNaN('2') // false
+isNumberNotNaN(NaN) // false
+isNumberNotNaN(1) // true
+isNumberNotNaN(0.1) // true
+isNumberNotNaN(BigInt(7)) // true
+```
+
+### isBoolean
+```js
+isBoolean(1) // false
+isBoolean(false) // true
+isBoolean(Boolean(1)) // true
+
+// If you need to do this for some (stupid) reason, then isBoolean() will still
+// return true even though typeof new Boolean() === 'object'.
+isBoolean(new Boolean(1)) // true
+```
+
+### isUndefined
+```js
+isUndefined(null) // false
+isUndefined(undefined) // true
+isUndefined() // true
+```
+
+### isPrimitive
+Detects [JavaScript Primitives](https://developer.mozilla.org/en-US/docs/Glossary/Primitive).
+
+```js
+isPrimitive({}) // false
+isPrimitive(null) // true
+isPrimitive(false) // true
+isPrimitive('hello world') // true
+isPrimitive(undefined) // true
+isPrimitive() // true
+```
+
+### isFunction
+Detects function declaration, function expressions, arrow functions, and async functions.
+
+```js
+class Foo {
+    yell() {
+        return 'HELLO WORLD';
+    }
 }
-```
 
-```js
-// Implementation:
-function AssertionError (message, props, caller) {
-    this.message = message || 'Unspecified AssertionError';
-    caller = caller || AssertionError;
-    Error.captureStackTrace(this, caller);
+async function helloWorld() {
+    const res = await Promise.resolve('hello world');
+    return res;
 }
 
-AssertionError.prototype = Object.create(Error.prototype);
+isFunction(new Foo().yell) // true
+isFunction(helloWorld) // true
+isFunction(() => {}) // true
+isFunction('foo') // false
+```
 
-AssertionError.prototype.name = 'AssertionError';
+### isPlainObject
+```js
+isPlainObject(new Date()) // false
+isPlainObject({ foo: 'bar' }) // true
+```
 
-AssertionError.prototype.constructor = AssertionError;
+### isDate
+```js
+isDate({}) // false
+isDate(new Date()) // true
+```
+
+### isValidDate
+```js
+isValidDate({}) // false
+isValidDate(new Date('1999')) // true
+isValidDate(new Date('Invalid')) // false
+```
+
+### isRegExp
+```js
+isRegExp({}) // false
+isRegExp(/^foo/i) // true
+isRegExp(new RegExp('^foo', 'i')) // true
+```
+
+### isMap
+```js
+isMap(new Set()) // false
+isMap(new Map()) // true
+isMap(new WeakMap()) // true
+```
+
+### isSet
+```js
+isSet(new Map()) // false
+isSet(new Set()) // true
+isSet(new WeakSet()) // true
+```
+
+### isEqual
+Provides a clever date comparison and some safety against stupid stuff with NaN.
+
+Can be curried.
+
+```js
+isEqual(1, 2) // false
+isEqual(1, '1') // false
+isEqual(1, 1) // true
+
+// If you do NaN === NaN you'll get false (dumb).
+// The isEqual() helper corrects that.
+isEqual(NaN, NaN) // true
+
+// Compare dates :D
+isEqual(new Date('1999'), new Date('1999')) // true
+```
+
+You can curry it! :tada:
+
+```js
+const isOne = isEqual(1);
+
+isOne(1) // true
+```
+
+### doesMatch
+A wiz at matching strings and RegExp, but can match just about anything.
+
+If the matcher is a regular expression then doesMatch() will call RegExp:test() using the subject. If the subject is equal to the matcher (using isEqual()) then return true. If the subject is a String then check to see if the String contains the matcher with String:includes(). If the subject is a valid Date then convert it to a string using Date:toISOString() before making the comparison.
+
+Can be curried.
+
+```js
+doesMatch(/^foo/i, 'BAR') // false
+doesMatch(/^foo/i, 'FOOBAR') // true
+doesMatch('oba', 'foobar') // true
+doesMatch('fox', 'The quick brown fox jumped over the...') // true
+```
+
+You can curry it! :tada:
+
+```js
+const isShortDateString = doesMatch(/^[\d]{4}-[\d]{2}-[\d]{2}$/);
+
+isShortDateString('14 September 2020') // false
+isShortDateString('2020-09-14') // true
+```
+
+### toFriendlyString
+Coerces the passed value into a String which more closely represents what the thing is.
+
+```js
+toFriendlyString('foo'); // "String(foo)"
+toFriendlyString(false); // "Boolean(false)"
+toFriendlyString(new Date('foo')); // "Date(Invalid)"
+toFriendlyString([1,2,3]); // "Array([0..2])"
+```
+
+## AssertionError
+All the assertion functions in this library throw an AssertionError when they fail. You could also use the constructor to create special AssertionErrors elsewhere in your code if you'd like.
+
+```js
+// In Node.js:
+import { AssertionError } from 'kixx-assert';
+
+// Use for situations like this:
+
+try {
+    assert(false);
+} catch (error) {
+    if (error instanceof AssertionError === false) {
+        console.log('Threw an unexpected error:', error.constructor.name);
+    }
+}
 ```
 
 ## Assertions
-Access in browsers: `window.KixxAssert.assert`;
+Assertion functions generally come in two flavors: Single subject or control and subject checks. A message string can be passed into either type of assertion as the last argument.
 
-Access in Node.js: `require('kixx-assert').assert`;
-
-### assert.isOk
-__`KixxAssert.assert.isOk(subject, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-subject | any | The item to test
-reason | String | String used as the first part of the AssertionError message.
-
-Passes if the subject is truthy.
-
-### assert.isNotOk
-__`KixxAssert.assert.isNotOk(subject, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-subject | any | The item to test
-reason | String | String used as the first part of the AssertionError message.
-
-Passes if the subject is falsy.
-
-### assert.isEqual
-__`KixxAssert.assert.isEqual(expected, actual, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-expected | any | The value to test against
-actual | any | The test subject
-reason | String | String used as the first part of the AssertionError message.
-
-Passes if expected strictly equals `===` actual.
-
-### assert.isNotEqual
-__`KixxAssert.assert.isNotEqual(expected, actual, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-expected | any | The value to test against
-actual | any | The test subject
-reason | String | String used as the first part of the AssertionError message
-
-Passes if expected does not strictly equal `===` actual.
-
-### assert.isMatch
-__`KixxAssert.assert.isMatch(pattern, actual, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-pattern | String or RegExp | The pattern to test
-actual | any | The test subject
-reason | String | String used as the first part of the AssertionError message
-
-Passes if actual matches the pattern String or RegExp.
-
-### assert.isNotMatch
-__`KixxAssert.assert.isNotMatch(pattern, actual, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-pattern | String or RegExp | The pattern to test
-actual | any | The test subject
-reason | String | String used as the first part of the AssertionError message
-
-Passes if actual does *not* match the pattern String or RegExp.
-
-### assert.isUndefined
-__`KixxAssert.assert.isUndefined(subject, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-subject | any | The item to test
-reason | String | String used as the first part of the AssertionError message.
-
-Passes if the subject is undefined. Fails if the subject is `null` or `false`.
-
-### assert.isDefined
-__`KixxAssert.assert.isDefined(subject, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-subject | any | The item to test
-reason | String | String used as the first part of the AssertionError message.
-
-Passes if the subject is anything other than undefined.
-
-### assert.isEmpty
-__`KixxAssert.assert.isEmpty(subject, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-subject | any | The item to test
-reason | String | String used as the first part of the AssertionError message.
-
-Passes if the subject is an empty Array, String, or Object with no enumerable properties. Also passes for all primitives which are falsy.
-
-### assert.isNotEmpty
-__`KixxAssert.assert.isNotEmpty(subject, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-subject | any | The item to test
-reason | String | String used as the first part of the AssertionError message.
-
-Passes if the subject is a *non* empty Array, String, or Object with enumerable properties. Also passes for all primitives which are truthy.
-
-### assert.includes
-__`KixxAssert.assert.includes(item, subject, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-item | any | The item expected to be found in the subject
-subject | Array, Object, or String | The item to test
-reason | String | String used as the first part of the AssertionError message.
-
-Passes if the subject contains the item. In the case of a String, the item must be a character contained in the subject. In the case of an Array, any primitive or object which strictly equals an item in the Array will pass. In the case of an Object, any primitive or object strictly equals an enumerable property of the Object will pass.
-
-### assert.doesNotInclude
-__`KixxAssert.assert.doesNotInclude(item, subject, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-item | any | The item *not* expected to be found in the subject
-subject | Array, Object, or String | The item to test
-reason | String | String used as the first part of the AssertionError message.
-
-Passes if the subject does *not* contain the item. In the case of a String, the item must be a character *not* in the subject. In the case of an Array, any primitive or object which strictly equals an item in the Array will fail. In the case of an Object, any primitive or object strictly equals an enumerable property of the Object will fail.
-
-### assert.has
-__`KixxAssert.assert.has(key, subject, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-key | String | The name of the object property to test for
-subject | Object | The Object to test
-reason | String | String used as the first part of the AssertionError message.
-
-Passes if subject has own property key.
-
-### assert.doesNotHave
-__`KixxAssert.assert.doesNotHave(key, subject, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-key | String | The name of the object property to test for
-subject | Object | The Object to test
-reason | String | String used as the first part of the AssertionError message.
-
-Passes if subject does *not* have own property key.
-
-### assert.isGreaterThan
-__`KixxAssert.assert.isGreaterThan(a, b, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-a | any | The control value
-b | any | The tested value
-reason | String | String used as the first part of the AssertionError message.
-
-Assertion will pass if `b` is greater than `a`.
-
-### assert.isLessThan
-__`KixxAssert.assert.isLessThan(a, b, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-a | any | The control value
-b | any | The tested value
-reason | String | String used as the first part of the AssertionError message.
-
-Assertion will pass if `b` is less than `a`.
-
-### assert.isNonEmptyString
-__`KixxAssert.assert.isNonEmptyString(subject, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-subject | any | The item to test
-reason | String | String used as the first part of the AssertionError message.
-
-Passes if subject is a String with length greater than 0.
-
-### assert.isNumberNotNaN
-__`KixxAssert.assert.isNumberNotNaN(subject, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-subject | any | The item to test
-reason | String | String used as the first part of the AssertionError message.
-
-Passes if subject is a Number but not NaN.
-
-## Helpers
-Access in browsers: `window.KixxAssert.helpers`;
-
-Access in Node.js: `require('kixx-assert').helpers`;
-
-### helpers.identity
-__`KixxAssert.helpers.identity(x)`__
-
-parameter | type | description
---------- | ---- | -----------
-x | any | The value to return
-
-__Returns__ the input value `x`.
-
-A function that does nothing but return the parameter supplied to it. Good as a default or placeholder function.
-
-### helpers.complement
-__`KixxAssert.helpers.complement(f)`__
-
-parameter | type | description
---------- | ---- | -----------
-f | Function | The the Function to invert
-
-__Returns__ a new Function which will call `f`.
-
-Takes a function f and returns a function g such that if called with the same arguments when f returns a "truthy" value, g returns false and when f returns a "falsy" value g returns true.
-
-### helpers.type
-__`KixxAssert.helpers.type(v)`__
-
-parameter | type | description
---------- | ---- | -----------
-v | any | The value to test
-
-__Returns__ a String representing the type of the value.
-
-Gives a single-word string description of the (native) type of a value, returning such answers as 'Object', 'Number', 'Array', or 'Null'. Does not attempt to distinguish user Object types any further, reporting them all as 'Object'.
-
-### helpers.keys
-__`KixxAssert.helpers.keys(x)`__
-
-parameter | type | description
---------- | ---- | -----------
-x | Object | The object to extract property keys from
-
-__Returns__ an Array of the object's own enumerable property names.
-
-Returns a list containing the names of all the enumerable own properties of the supplied object. Note that the order of the output array is not guaranteed to be consistent across different JS platforms.
-
-### helpers.has
-__`KixxAssert.helpers.has(prop, x)`__
-
-parameter | type | description
---------- | ---- | -----------
-prop | String | The name of the property to check for
-x | Object | The object to to check
-
-__Returns__ a Boolean indicating if the property exists.
-
-Returns whether or not an object has an own property with the specified name.
-
-### helpers.equal
-__`KixxAssert.helpers.equal(a, b)`__
-
-parameter | type | description
---------- | ---- | -----------
-a | any | Thing 1
-b | any | Thing 2
-
-__Returns__ a Boolean indicating if `a` and `b` are strict equal.
-
-Determine if both arguments are strict equal (`===`).
-
-### helpers.greaterThan
-__`KixxAssert.helpers.greaterThan(a, b)`__
-
-parameter | type | description
---------- | ---- | -----------
-a | any | Thing 1
-b | any | Thing 2
-
-__Returns__ a Boolean indicating if `b` is greater than (`>`) `a`.
-
-Deterimine if the second argument is greater than the first.
-
-### helpers.lessThan
-__`KixxAssert.helpers.lessThan(a, b)`__
-
-parameter | type | description
---------- | ---- | -----------
-a | any | Thing 1
-b | any | Thing 2
-
-__Returns__ a Boolean indicating if `b` is less than (`<`) `a`.
-
-Deterimine if the second argument is less than the first.
-
-### helpers.match
-__`KixxAssert.helpers.match(matcher, x)`__
-
-parameter | type | description
---------- | ---- | -----------
-matcher | RegExp or String | Regular expression or String to match against
-x | String | String to match
-
-__Returns__ a Boolean indicating if `x` matches `matcher`.
-
-Determine if the second argument matches the first using a RegExp or String match. If the first argument is a String the second argument will be matched against it using `===`. Otherwise the first argument is assumed to be a RegExp and will be matched using `.test()`.
-
-### helpers.isPrimitive
-__`KixxAssert.helpers.isPrimitive(x)`__
-
-parameter | type | description
---------- | ---- | -----------
-x | any | Thing to check
-
-__Returns__ a Boolean indicating if `x` is not an Object or is null.
-
-Indicate if the argument is not an object, or is null.
-
-### helpers.isString
-__`KixxAssert.helpers.isString(x)`__
-
-parameter | type | description
---------- | ---- | -----------
-x | any | Thing to check
-
-__Returns__ a Boolean indicating if `x` is a String.
-
-Indicate if the argument is a String.
-
-### helpers.isNumber
-__`KixxAssert.helpers.isNumber(x)`__
-
-parameter | type | description
---------- | ---- | -----------
-x | any | Thing to check
-
-__Returns__ a Boolean indicating if `x` is a number.
-
-Indicate if the argument is a number or NaN.
-
-### helpers.isBoolean
-__`KixxAssert.helpers.isBoolean(x)`__
-
-parameter | type | description
---------- | ---- | -----------
-x | any | Thing to check
-
-__Returns__ a Boolean indicating if `x` is a Boolean.
-
-Indicate if the argument is a Boolean.
-
-### helpers.isArray
-__`KixxAssert.helpers.isArray(x)`__
-
-parameter | type | description
---------- | ---- | -----------
-x | any | Thing to check
-
-__Returns__ a Boolean indicating if `x` is an Array.
-
-Indicate if the argument is an Array.
-
-### helpers.isObject
-__`KixxAssert.helpers.isObject(x)`__
-
-parameter | type | description
---------- | ---- | -----------
-x | any | Thing to check
-
-__Returns__ a Boolean indicating if `x` is a plain Object.
-
-Indicate if the argument is a plain Object. It will return false for Dates, RegExp, Arrays, etc.
-
-### helpers.isFunction
-__`KixxAssert.helpers.isFunction(x)`__
-
-parameter | type | description
---------- | ---- | -----------
-x | any | Thing to check
-
-__Returns__ a Boolean indicating if `x` is a Function.
-
-Indicate if the argument is a Function.
-
-### helpers.isNull
-__`KixxAssert.helpers.isNull(x)`__
-
-parameter | type | description
---------- | ---- | -----------
-x | any | Thing to check
-
-__Returns__ a Boolean indicating if `x` is `null`.
-
-Indicate if the argument is `null`. It will return `false` for `undefined`.
-
-### helpers.isUndefined
-__`KixxAssert.helpers.isUndefined(x)`__
-
-parameter | type | description
---------- | ---- | -----------
-x | any | Thing to check
-
-__Returns__ a Boolean indicating if `x` is not defined.
-
-Indicate if the argument is not defined using `typeof x === 'undefined'`.
-
-### helpers.isDefined
-__`KixxAssert.helpers.isDefined(x)`__
-
-parameter | type | description
---------- | ---- | -----------
-x | any | Thing to check
-
-__Returns__ a Boolean indicating if `x` is defined.
-
-Indicate if the argument is anything other than `undefined`, even `null`.
-
-### helpers.isNumberNotNaN
-__`KixxAssert.helpers.isNumberNotNaN(x)`__
-
-parameter | type | description
---------- | ---- | -----------
-x | any | Thing to check
-
-__Returns__ a Boolean indicating that `x` is a Number but not NaN.
-
-Indicate if the first argument is a Number, but not NaN.
-
-### helpers.isNonEmptyString
-__`KixxAssert.helpers.isNonEmptyString(x)`__
-
-parameter | type | description
---------- | ---- | -----------
-x | any | Thing to check
-
-__Returns__ a Boolean indicating that `x` is a String with length greater than 0.
-
-Indicate if the first argument is a String with length greater than zero.
-
-### helpers.isEmpty
-__`KixxAssert.helpers.isEmpty(x)`__
-
-parameter | type | description
---------- | ---- | -----------
-x | any | Thing to check
-
-__Returns__ a Boolean indicating that `x` has its type's empty value.
-
-Returns Boolean `true` if the first argument is an empty Array, String, or Object with no enumerable properties. Returns Boolean `true` for all primitives which are falsy and Boolean `false` for all primitives which are truthy.
-
-### helpers.isNotEmpty
-__`KixxAssert.helpers.isNotEmpty(x)`__
-
-parameter | type | description
---------- | ---- | -----------
-x | any | Thing to check
-
-__Returns__ a Boolean indicating that `x` does *not* have its type's empty value.
-
-Returns Boolean `true` if the first argument is an empty Array, String, or Object with more than zero enumerable properties. Returns Boolean `true` for all primitives which are truthy and Boolean `false` for all primitives which are falsy.
-
-### helpers.includes
-__`KixxAssert.helpers.includes(item, list)`__
-
-parameter | type | description
---------- | ---- | -----------
-item | any | Thing to check
-list | Array, String, or Object | List to check
-
-__Returns__ a Boolean indicating that `item` was found in `list` using the `===` comparator.
-
-Returns Boolean true if the second argument is an Array, String, or Object which contains the first argument. In the case of a String, the first argument must be a character contained in the second argument to return true. In the case of an Array, any primitive or object which compares with `===` will return true. In the case of an Object, any primitive or object which is an enumerable property of the Object and compares wth `===` will return true.
-
-### helpers.doesNotInclude
-__`KixxAssert.helpers.doesNotInclude(item, list)`__
-
-parameter | type | description
---------- | ---- | -----------
-item | any | Thing to check
-list | Array, String, or Object | List to check
-
-__Returns__ a Boolean indicating that `item` was *not* found in `list` using the `===` comparator.
-
-Returns Boolean true if the second argument is an Array, String, or Object which does *not* contain the first argument. In the case of a String, the first argument must be a character which is *not* contained in the second argument to return `true`. In the case of an Array, any primitive or object which compares with `===` will return `false`. In the case of an Object, any primitive or object which is an enumerable property of the Object and compares wth `===` will return `false`.
-
-### helpers.toString
-__`KixxAssert.helpers.toString(x)`__
-
-parameter | type | description
---------- | ---- | -----------
-x | any | The thing to stringify
-
-__Returns__ a String representation of `x`.
+An example of a single subject check with a message string:
 
 ```js
-console.log(helpers.toString('foo')); // String("foo")
-console.log(helpers.toString(true)); // Boolean(true)
-console.log(helpers.toString(99)); // Number(99)
-console.log(helpers.toString()); // undefined
-console.log(helpers.toString(null)); // null
-console.log({}); // Object({})
-console.log(Object.create(null)); // [object Object]
-console.log(new Cat()); // Cat({})
+assertNonEmptyString(null, 'This value should be a string');
+// Throws an AssertionError("This value should be a string (Expected null to be a non-empty String)")
 ```
 
-### helpers.printf
-__`KixxAssert.helpers.printf(pattern, ...rest)`__
+An example of a control and subject check with a message string:
+```js
+const control = 'foo';
+const subject = 'bar';
 
-parameter | type | description
---------- | ---- | -----------
-pattern | String | The pattern string using %d, %s, %x as placeholders for `...rest`
-rest | any additional arguments | Any objects to replace in pattern String
+assertEqual(control, subject, 'Subject is equal to control');
+// Throws an AssertionError("Subject is equal to control (Expected String(bar) to equal (===) String(foo))")
+```
 
-__Returns__ a String.
+The control/subject checks can be curried:
+```js
+const assertFoo = assertEqual('foo');
 
-If the first argument is a string with replacement patterns (starting with "%") then the following arguments are stringified and replaced. If the first argument is a string with no replacement patterns it will be returned alone. If the first argument is not a string, then all arguments will simply be stringified, separated by spaces.
+assertFoo(subject, 'Subject is foo');
+// Throws an AssertionError("Subject is foo (Expected String(bar) to equal (===) String(foo))")
+```
+
+### assert
+Throw an AssertionError if the passed value is not truthy.
 
 ```js
-console.log(heleprs.printf('foo')); // foo
-console.log(helpers.printf('foo %d %x'), 1, null); // foo Number(1) null
-console.log(helpers.printf({foo: 'bar'}, 1, null)); // Object({}) Number(1) null
+assert(0) // Throws AssertionError
+assert('foo') // Passes
 ```
 
-### helpers.assertion1
-__`KixxAssert.helpers.assertion1(guard, reason)`__
-
-parameter | type | description
---------- | ---- | -----------
-guard | Function | A Function which will be called with the assertion argument as the assertion test and is expected to return a Boolean.
-reason | Function | A Function wich will be called with the assertion argument in the case of failure and is expected to return a String.
-
-__Returns__ a composed assertion Function.
-
-The returned assertion Function will through an AssertionError if the call to the `guard()` returns `false`.
+### assertFalsy
+Throw an AssertionError if the passed value is not falsy.
 
 ```js
-const isEmpty = assertion1(isEmpty, function (actual) {
-    return printf('expected %x to be empty', actual);
-});
-
-isEmpty([1], 'Is it empty?'); // Will throw AssertionError
+assertFalsy('foo') // Throws AssertionError
+assertFalsy(null) // Passes
 ```
 
-### helpers.assertion2
-__`KixxAssert.helpers.assertion1(guard, reason)`__
+### assertEqual
+Throw an AssertionError if the passed values are *not strictly* equal. Dates and NaN are special cases handled seperately.
 
-parameter | type | description
---------- | ---- | -----------
-guard | Function | A Function which will be called with the assertion arguments as the assertion test and is expected to return a Boolean.
-reason | Function | A Function wich will be called with the assertion arguments in the case of failure and is expected to return a String.
-
-__Returns__ a composed assertion Function.
-
-The returned assertion Function will throw an AssertionError if the call to the `guard()` returns `false`. If the returned assertion function is called with only 1 argument, it will automatically curry, returning a function which will accept the remaining 2 arguments.
+See [isEqual](#isequal).
 
 ```js
-const isEqual = assertion2(helpers.equal, function (expected, actual) {
-    return printf('expected %x to equal %x', actual, expected);
-});
+assertEqual(1, 2) // Throws AssertionError
+assertEqual(1, '1') // Throws AssertionError
+assertEqual(1, 1) // passes
 
-const isEqualToFoo = isEqual('foo');
+// If you do NaN === NaN you'll get false (dumb).
+// assertEqual() corrects that behavior.
+assertEqual(NaN, NaN) // passes
 
-isEqualToFoo('bar', 'is it equal to "foo"?'); // Will throw AssertionError
+// Compare dates :D
+assertEqual(new Date('1999'), new Date('1999')) // passes
 ```
 
+You can curry it! :tada:
+
+```js
+const assertIs1 = assertEqual(1);
+
+assertIs1(1) // passes
+```
+
+### assertNotEqual
+The inverse of [assertEqual()](#assertequal)
+
+### assertMatches
+See [doesMatch()](#doesmatch)
+
+Can be curried.
+
+```js
+assertMatches(/^foo/i, 'BAR') // Throws AssertionError
+assertMatches(/^foo/i, 'FOOBAR') // passes
+assertMatches('oba', 'foobar') // passes
+assertMatches('fox', 'The quick brown fox jumped over the...') // passes
+```
+
+You can curry it! :tada:
+
+```js
+const assertShortDateString = assertMatches(/^[\d]{4}-[\d]{2}-[\d]{2}$/);
+
+assertShortDateString('14 September 2020') // Throws AssertionError
+assertShortDateString('2020-09-14') // passes
+```
+
+### assertNotMatches
+The inverse of [assertMatches()](#assertmatches)
+
+### assertDefined
+Uses [isUndefined()](#isundefined) internally.
+
+```js
+assertDefined(undefined) // Throws AssertionError
+assertDefined(new Date().foo) // Throws AssertionError
+assertDefined(new Map().size) // passes (even though .size is zero)
+assertDefined(null) // passes
+```
+
+### assertUndefined
+Inverse of [assertUndefined](#assertUndefined). Uses [isUndefined()](#isundefined) internally.
+
+```js
+assertUndefined(null) // Throws AssertionError
+assertUndefined(({}).toString) // Throws AssertionError
+assertUndefined(undefined) // passes
+```
+### assertNonEmptyString
+See [isNonEmptyString()](#isnonemptystring).
+
+### assertNumberNotNaN
+See [isNumberNotNaN()](#isnumbernotnan).
+
+### assertArray
+Uses the native Array.isArray().
+
+### assertBoolean
+See [isBoolean()](#isboolean).
+
+### assertFunction
+See [isFunction()](#isfunction).
+
+### assertValidDate
+See [isValidDate()](#isvaliddate).
+
+### assertRegExp
+See [isRegExp()](#isregexp).
+
+### assertGreaterThan
+If the subject is less than or equal to the control the test will fail.
+
+Can be curried.
+
+```js
+const control = new Date();
+
+// This comparison of 1970 to today will throw an AssertionError
+assertGreaterThan(control, new Date(0));
+```
+
+You can curry it! :tada:
+
+```js
+const assertGreaterThan100 = assertGreaterThan(100);
+
+assertGreaterThan100(99); // Will throw an AssertionError
+```
+
+### assertLessThan
+If the subject is greater than or equal to the control the test will fail.
+
+Can be curried.
+
+```js
+const control = 'A';
+
+assertLessThan(control, 'B'); // Will throw an AssertionError
+```
+
+You can curry it! :tada:
+
+```js
+const assertBeforeToday = assertLessThan(new Date());
+
+assertBeforeToday(new Date()); // Will throw an AssertionError
+```
 
 Copyright and License
 ---------------------
-Copyright: (c) 2017 - 2023 by Kris Walker (www.kriswalker.me)
+Copyright: (c) 2017 - 2025 by Kris Walker (www.kriswalker.me)
 
 Unless otherwise indicated, all source code is licensed under the MIT license. See MIT-LICENSE for details.
